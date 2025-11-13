@@ -20,7 +20,8 @@ const routes: RouteRecordRaw[] = [
                 path:'/patient-list',
                 component:PatientList,
                 name:'patient-list'
-            }
+            },
+           
         ]
     }
 ]

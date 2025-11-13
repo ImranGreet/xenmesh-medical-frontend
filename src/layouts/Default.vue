@@ -19,7 +19,7 @@ import { SidebarProvider, SidebarTrigger, SidebarContent, SidebarHeader, Sidebar
           <li>
             <RouterLink :to="{ name: 'patient-list' }">Patient List</RouterLink>
           </li>
-          <li>2</li>
+
           <li>3</li>
           <li>4</li>
           <li>5</li>
@@ -32,7 +32,7 @@ import { SidebarProvider, SidebarTrigger, SidebarContent, SidebarHeader, Sidebar
 
     <main class="w-full">
       <SidebarTrigger class="fixed" />
-      <div class="p-8">
+      <div class="md:p-8 p-2">
         <RouterView />
 
       </div>
