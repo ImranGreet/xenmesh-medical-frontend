@@ -215,7 +215,7 @@ const invoices = [
                     <AddnewAppoinment />
                     <DialogFooter>
                         <Button type="submit">
-                            Add Patient </Button>
+                            Generate Prescription </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

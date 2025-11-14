@@ -6,29 +6,29 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <Label for="first_name">First Name</Label>
-          <Input id="first_name" v-model="form.first_name" placeholder="John" required />
+          <Input class="mt-2"  id="first_name" v-model="form.first_name" placeholder="John" required />
         </div>
 
         <div>
           <Label for="last_name">Last Name</Label>
-          <Input id="last_name" v-model="form.last_name" placeholder="Doe" required class="focus-visible:shadow-none" />
+          <Input class="mt-2"  id="last_name" v-model="form.last_name" placeholder="Doe" required  />
         </div>
       </div>
 
       <div>
         <Label for="phone">Phone Number</Label>
-        <Input id="phone" type="tel" v-model="form.phone" placeholder="+8801XXXXXXXXX" required />
+        <Input class="mt-2"  id="phone" type="tel" v-model="form.phone" placeholder="+8801XXXXXXXXX" required />
       </div>
 
       <div>
         <Label for="email">Email</Label>
-        <Input id="email" type="email" v-model="form.email" placeholder="example@mail.com" />
+        <Input class="mt-2"  id="email" type="email" v-model="form.email" placeholder="example@mail.com" />
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <Label for="gender">Gender</Label>
-          <Select v-model="form.gender">
+          <Select v-model="form.gender" class="mt-2" >
             <SelectTrigger>
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
@@ -42,13 +42,13 @@
 
         <div>
           <Label for="dob">Date of Birth</Label>
-          <Input id="dob" type="date" v-model="form.dob" required />
+          <Input class="mt-2" id="dob" type="date" v-model="form.dob" required />
         </div>
       </div>
 
       <div>
         <Label for="address">Address</Label>
-        <Textarea id="address" v-model="form.address" placeholder="Enter full address" rows="2" />
+        <Textarea class="mt-2" id="address" v-model="form.address" placeholder="Enter full address" rows="2" />
       </div>
     </form>
   </div>
