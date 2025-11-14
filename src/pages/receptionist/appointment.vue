@@ -47,6 +47,15 @@ import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
 import Card from "@/components/shared/Card.vue";
 
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
 
 
 
@@ -188,12 +197,12 @@ const invoices = [
 
 
     <div class="w-full flex justify-between items-center py-10">
-      <h1 class="text-2xl font-bold">Appointment Management</h1>
+      <h1 class="text-2xl font-bold">Appointment Management </h1>
 
       <Dialog>
         <DialogTrigger as-child>
-          <Button>
-            + Add New Patient
+          <Button class="capitalize">
+            + New Appoinment
           </Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-xl block">
@@ -215,72 +224,72 @@ const invoices = [
 
     <div class="w-full mb-20">
       <div class="w-full flex flex-wrap lg:flex-nowrap gap-3.5">
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>        
+        <Card />
+        <Card />
+        <Card />
+        <Card />
       </div>
     </div>
 
 
     <div class="w-full flex flex-col lg:flex-row gap-3.5 lg:gap-0 justify-between items-center mt-2 mb-3.5 pb-2">
-            <h1 class="text-2xl font-semibold">Find Appoinments</h1>
-            <div class="flex flex-wrap gap-1.5">
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select date" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="apple">
-                      Apple
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select days" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="apple">
-                      Apple
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a doctor" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="apple">
-                      Apple
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="apple">
-                      Apple
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <Button>+ Export</Button>
-            </div>
-          </div>
+      <h1 class="text-2xl font-semibold">Find Appoinments</h1>
+      <div class="flex flex-wrap gap-1.5">
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select date" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">
+                Apple
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select days" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">
+                Apple
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a doctor" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">
+                Apple
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">
+                Apple
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button>+ Export</Button>
+      </div>
+    </div>
 
 
 
@@ -308,7 +317,7 @@ const invoices = [
 
       <TabsContent value="appo">
         <section>
-          
+
           <Table>
             <TableCaption>A list of your recent invoices.</TableCaption>
             <TableHeader>
@@ -342,6 +351,21 @@ const invoices = [
               </TableRow>
             </TableBody>
           </Table>
+          <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2">
+            <PaginationContent v-slot="{ items }">
+              <PaginationPrevious />
+
+              <template v-for="(item, index) in items" :key="index">
+                <PaginationItem v-if="item.type === 'page'" :value="item.value" :is-active="item.value === page">
+                  {{ item.value }}
+                </PaginationItem>
+              </template>
+
+              <PaginationEllipsis :index="4" />
+
+              <PaginationNext />
+            </PaginationContent>
+          </Pagination>
         </section>
       </TabsContent>
     </Tabs>
