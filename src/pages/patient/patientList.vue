@@ -277,7 +277,7 @@ const invoices = [
 
     <Input placeholder="Patient Name" />
 
-    <Table class="mt-10">
+    <Table class="caption-top mt-10">
       <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>

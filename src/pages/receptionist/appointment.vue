@@ -317,41 +317,45 @@ const invoices = [
 
       <TabsContent value="appo">
         <section>
+          <div class="h-[600px] scroll-auto overflow-y-auto">
 
-          <Table>
-            <TableCaption>A list of your recent invoices.</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead class="w-[100px]">
-                  Invoice
-                </TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead class="text-right">
-                  Amount
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow v-for="invoice in invoices" :key="invoice.invoice">
-                <TableCell class="font-medium p-3">
-                  {{ invoice.invoice }}
-                </TableCell>
-                <TableCell class="p-3">
-                  <Badge variant="destructive" v-if="invoice.paymentStatus === `Unpaid`">{{ invoice.paymentStatus }}
-                  </Badge>
-                  <Badge variant="outline" v-if="invoice.paymentStatus === `Paid`">{{ invoice.paymentStatus }}</Badge>
-                  <Badge variant="secondary" v-if="invoice.paymentStatus === `Pending`">{{ invoice.paymentStatus }}
-                  </Badge>
-                </TableCell>
-                <TableCell class="p-3">{{ invoice.paymentMethod }}</TableCell>
-                <TableCell class="text-right p-3">
-                  {{ invoice.totalAmount }}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-          <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2">
+            <Table class="caption-top">
+              <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your recent invoices.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead class="w-[100px]">
+                    Invoice
+                  </TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Method</TableHead>
+                  <TableHead class="text-right">
+                    Amount
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow v-for="invoice in invoices" :key="invoice.invoice">
+                  <TableCell class="font-medium p-3">
+                    {{ invoice.invoice }}
+                  </TableCell>
+                  <TableCell class="p-3">
+                    <Badge variant="destructive" v-if="invoice.paymentStatus === `Unpaid`">{{ invoice.paymentStatus }}
+                    </Badge>
+                    <Badge variant="outline" v-if="invoice.paymentStatus === `Paid`">{{ invoice.paymentStatus }}</Badge>
+                    <Badge variant="secondary" v-if="invoice.paymentStatus === `Pending`">{{ invoice.paymentStatus }}
+                    </Badge>
+                  </TableCell>
+                  <TableCell class="p-3">{{ invoice.paymentMethod }}</TableCell>
+                  <TableCell class="text-right p-3">
+                    {{ invoice.totalAmount }}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+
+          </div>
+
+          <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
             <PaginationContent v-slot="{ items }">
               <PaginationPrevious />
 

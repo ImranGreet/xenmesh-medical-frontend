@@ -47,15 +47,22 @@ import {
         <ul>
           <li>
             <RouterLink :to="{ name: 'appoinment' }" activeClass="border-indigo-500"
-              exactActiveClass="border-indigo-700">Appoinment</RouterLink>
+              exactActiveClass="border-indigo-700" class="capitalize text-lg font-semibold">Appoinment</RouterLink>
           </li>
           <li>
-            <RouterLink :to="{ name: 'patient-list' }">Patient List</RouterLink>
+            <RouterLink :to="{ name: 'patient-list' }" class="capitalize text-lg font-semibold">Patient List</RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'prescription' }" class="capitalize text-lg font-semibold">Prescription</RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'medical-records' }" class="capitalize text-lg font-semibold">Medical Records</RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'inventory-management' }" class="capitalize text-lg font-semibold">Inventory</RouterLink>
           </li>
 
-          <li>3</li>
-          <li>4</li>
-          <li>5</li>
+
         </ul>
       </SidebarContent>
       <SidebarFooter>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HMS Inventory Dashboard</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f3f4f6;
+    }
+
+    .container {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 240px;
+        background: #111827;
+        color: white;
+        padding: 20px;
+    }
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .role-btn {
+        display: block;
+        width: 100%;
+        background: #1f2937;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: left;
+        transition: 0.2s;
+    }
+
+    .role-btn:hover {
+        background: #374151;
+    }
+
+    /* Main content */
+    .content {
+        flex: 1;
+        padding: 20px 30px;
+    }
+
+    .section {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .section.active {
+        display: block;
+    }
+
+    h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: #111827;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+    }
+
+    th {
+        background: #f9fafb;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background: #f3f4f6;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Inventory Roles</h2>
+        <button class="role-btn" onclick="showSection('pharmacy')">Pharmacist</button>
+        <button class="role-btn" onclick="showSection('lab')">Lab Technician</button>
+        <button class="role-btn" onclick="showSection('general')">Store Keeper</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        <!-- Pharmacy Inventory -->
+        <div id="pharmacy" class="section">
+            <h3>Pharmacy & Medicine Inventory</h3>
+            <table>
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Stock</th>
+                    <th>Expiry Date</th>
+                </tr>
+                <tr>
+                    <td>Paracetamol</td>
+                    <td>120</td>
+                    <td>2026-02-10</td>
+                </tr>
+                <tr>
+                    <td>Omeprazole</td>
+                    <td>80</td>
+                    <td>2025-07-15</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Lab Inventory -->
+        <div id="lab" class="section">
+            <h3>Lab Reagents & Test Materials</h3>
+            <table>
+                <tr>
+                    <th>Reagent Name</th>
+                    <th>Stock</th>
+                    <th>Expiry</th>
+                </tr>
+                <tr>
+                    <td>Hemoglobin Kit</td>
+                    <td>45</td>
+                    <td>2025-11-20</td>
+                </tr>
+                <tr>
+                    <td>Blood Glucose Reagent</td>
+                    <td>60</td>
+                    <td>2026-03-18</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- General Store Inventory -->
+        <div id="general" class="section">
+            <h3>General Store Items</h3>
+            <table>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Stock</th>
+                </tr>
+                <tr>
+                    <td>Photocopy Paper (A4)</td>
+                    <td>15 Boxes</td>
+                </tr>
+                <tr>
+                    <td>Printer Ink Cartridge</td>
+                    <td>12 pcs</td>
+                </tr>
+                <tr>
+                    <td>Hand Sanitizer</td>
+                    <td>25 Bottles</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll('.section').forEach((sec) => {
+            sec.classList.remove('active');
+        });
+        document.getElementById(sectionId).classList.add('active');
+    }
+</script>
+
+</body>
+</html>

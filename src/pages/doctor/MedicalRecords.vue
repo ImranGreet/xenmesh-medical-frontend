@@ -1,0 +1,422 @@
+<script setup lang="ts">
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
+
+
+import { Input } from "@/components/ui/input"
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from "@/components/ui/tabs"
+
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+
+
+import Badge from "@/components/ui/badge/Badge.vue";
+import Button from "@/components/ui/button/Button.vue";
+import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
+import Card from "@/components/shared/Card.vue";
+
+
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
+
+
+
+
+
+const invoices = [
+    {
+        invoice: "INV001 INV001 INV001 INV001 INV001",
+        paymentStatus: "Paid",
+        totalAmount: "$250.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV002",
+        paymentStatus: "Pending",
+        totalAmount: "$150.00",
+        paymentMethod: "PayPal",
+    },
+    {
+        invoice: "INV003",
+        paymentStatus: "Unpaid",
+        totalAmount: "$350.00",
+        paymentMethod: "Bank Transfer",
+    },
+    {
+        invoice: "INV004",
+        paymentStatus: "Paid",
+        totalAmount: "$450.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV005",
+        paymentStatus: "Paid",
+        totalAmount: "$550.00",
+        paymentMethod: "PayPal",
+    },
+    {
+        invoice: "INV006",
+        paymentStatus: "Pending",
+        totalAmount: "$200.00",
+        paymentMethod: "Bank Transfer",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+    {
+        invoice: "INV007",
+        paymentStatus: "Unpaid",
+        totalAmount: "$300.00",
+        paymentMethod: "Credit Card",
+    },
+]
+</script>
+
+<template>
+    <section class="w-full">
+
+
+
+
+        <div class="w-full flex justify-between items-center py-10">
+            <h1 class="text-2xl font-bold">Medical Records Management </h1>
+
+
+        </div>
+
+
+        <div class="w-full mb-20">
+            <div class="w-full flex flex-wrap lg:flex-nowrap gap-3.5">
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+            </div>
+        </div>
+
+
+        <div class="w-full flex flex-col lg:flex-row gap-3.5 lg:gap-0 justify-between items-center mt-2 mb-3.5 pb-2">
+            <h1 class="text-2xl font-semibold">Find Appoinments</h1>
+            <div class="flex flex-wrap gap-1.5">
+                <Select>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select date" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Fruits</SelectLabel>
+                            <SelectItem value="apple">
+                                Apple
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                <Select>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select days" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Fruits</SelectLabel>
+                            <SelectItem value="apple">
+                                Apple
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                <Select>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select a doctor" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Fruits</SelectLabel>
+                            <SelectItem value="apple">
+                                Apple
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                <Select>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select a status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Fruits</SelectLabel>
+                            <SelectItem value="apple">
+                                Apple
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                <Button>+ Export</Button>
+            </div>
+        </div>
+
+
+
+        <Tabs default-value="account" class="w-full">
+
+            <TabsList class="h-10 p-6">
+                <TabsTrigger value="account" class="p-4">
+                    Account
+                </TabsTrigger>
+                <TabsTrigger value="password" class="p-4">
+                    Password
+                </TabsTrigger>
+                <TabsTrigger value="appo" class="p-4">
+                    Appoinment
+                </TabsTrigger>
+            </TabsList>
+
+            <Input class="my-3" />
+            <TabsContent value="account">
+                Make changes to your account here.
+            </TabsContent>
+            <TabsContent value="password">
+                Change your password here.
+            </TabsContent>
+
+            <TabsContent value="appo">
+                <section>
+                    <div class="h-[600px] scroll-auto overflow-y-auto">
+
+                        <Table class="caption-top">
+                            <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your recent
+                                invoices.</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead class="w-[100px]">
+                                        Invoice
+                                    </TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Method</TableHead>
+                                    <TableHead class="text-right">
+                                        Amount
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                <TableRow v-for="invoice in invoices" :key="invoice.invoice">
+                                    <TableCell class="font-medium p-3">
+                                        {{ invoice.invoice }}
+                                    </TableCell>
+                                    <TableCell class="p-3">
+                                        <Badge variant="destructive" v-if="invoice.paymentStatus === `Unpaid`">{{
+                                            invoice.paymentStatus }}
+                                        </Badge>
+                                        <Badge variant="outline" v-if="invoice.paymentStatus === `Paid`">{{
+                                            invoice.paymentStatus }}</Badge>
+                                        <Badge variant="secondary" v-if="invoice.paymentStatus === `Pending`">{{
+                                            invoice.paymentStatus }}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell class="p-3">{{ invoice.paymentMethod }}</TableCell>
+                                    <TableCell class="text-right p-3">
+                                        {{ invoice.totalAmount }}
+                                    </TableCell>
+                                    <TableCell class="text-right p-3">
+                                        <Dialog class="w-[650px]">
+                                            <DialogTrigger as-child>
+                                                <Button class="capitalize" variant="outline">
+                                                    View Medical Records
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent class="sm:max-w-xl block">
+                                                <DialogHeader>
+                                                    <DialogTitle>Sarah Jhonson</DialogTitle>
+                                                    <DialogDescription>
+                                                        Make changes to your profile here. Click save when you're done.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+
+
+                                                <Tabs default-value="account" class="w-full">
+
+                                                    <TabsList class="h-10 p-6">
+                                                        <TabsTrigger value="account" class="p-4">
+                                                            Over View
+                                                        </TabsTrigger>
+                                                        <TabsTrigger value="password" class="p-4">
+                                                            Clinical Notes
+                                                        </TabsTrigger>
+                                                        <TabsTrigger value="appo" class="p-4">
+                                                            Lab Results
+                                                        </TabsTrigger>
+                                                        <TabsTrigger value="appo" class="p-4">
+                                                            Medications
+                                                        </TabsTrigger>
+                                                    </TabsList>
+
+                                                    <TabsContent value="account">
+                                                        Make changes to your account here.
+                                                    </TabsContent>
+                                                    <TabsContent value="password">
+                                                        Change your password here.
+                                                    </TabsContent>
+
+                                                    <TabsContent value="appo">
+                                                        <section>
+                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                            Mollitia fuga quo tempore? 
+                                                        </section>
+                                                    </TabsContent>
+                                                </Tabs>
+
+
+                                                <DialogFooter>
+                                                    <Button type="button">
+                                                        Close </Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+
+                    </div>
+
+                    <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
+                        <PaginationContent v-slot="{ items }">
+                            <PaginationPrevious />
+
+                            <template v-for="(item, index) in items" :key="index">
+                                <PaginationItem v-if="item.type === 'page'" :value="item.value"
+                                    :is-active="item.value === page">
+                                    {{ item.value }}
+                                </PaginationItem>
+                            </template>
+
+                            <PaginationEllipsis :index="4" />
+
+                            <PaginationNext />
+                        </PaginationContent>
+                    </Pagination>
+                </section>
+            </TabsContent>
+        </Tabs>
+    </section>
+
+
+
+</template>
