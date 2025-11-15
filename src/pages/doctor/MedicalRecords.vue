@@ -43,7 +43,6 @@ import {
 
 import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
-import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
 import Card from "@/components/shared/Card.vue";
 
 
