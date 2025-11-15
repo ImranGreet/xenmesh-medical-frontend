@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
+
 import {
   Table,
   TableBody,
@@ -56,21 +59,32 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
+/*store or pinia*/
+
 import useAppoinmnetStore from "@/store/appoinments";
-import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import useStatusStore from "@/store/status";
+import useDoctorStore from "@/store/doctor";
+
 
 
 const appoinmentStore = useAppoinmnetStore();
-
-
+const statusStore = useStatusStore();
+const doctorStore = useDoctorStore();
+const { statuses } = storeToRefs(statusStore);
 const { appointments } = storeToRefs(appoinmentStore);
+const { doctors } = storeToRefs(doctorStore);
+
+
 
 const { retrieveAppoinments } = appoinmentStore;
+const { retrieveStatuses } = statusStore;
+const { retrieveDoctors } = doctorStore;
 
 
 onMounted(async () => {
   await retrieveAppoinments();
+  await retrieveStatuses();
+  await retrieveDoctors();
 })
 
 
@@ -140,9 +154,21 @@ onMounted(async () => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
+              <SelectLabel>Days</SelectLabel>
               <SelectItem value="apple">
-                Apple
+                10
+              </SelectItem>
+              <SelectItem value="apple">
+                20
+              </SelectItem>
+              <SelectItem value="apple">
+                30
+              </SelectItem>
+              <SelectItem value="apple">
+                40
+              </SelectItem>
+              <SelectItem value="apple">
+                60
               </SelectItem>
             </SelectGroup>
           </SelectContent>
@@ -153,9 +179,9 @@ onMounted(async () => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">
-                Apple
+              <SelectLabel>Doctors</SelectLabel>
+              <SelectItem value="apple" v-for="doctor in doctors">
+                {{ doctor.name }}
               </SelectItem>
             </SelectGroup>
           </SelectContent>
@@ -166,9 +192,9 @@ onMounted(async () => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">
-                Apple
+              <SelectLabel>Status</SelectLabel>
+              <SelectItem value="{{ status.id }}" v-for="status in statuses">
+                {{ status }}
               </SelectItem>
             </SelectGroup>
           </SelectContent>
