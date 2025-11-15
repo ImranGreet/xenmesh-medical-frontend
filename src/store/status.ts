@@ -15,10 +15,25 @@ const useStatusStore = defineStore("statusStore", () => {
     }
   };
 
+  let createStatus = async function () {
+    let response = await axios.post("/create-status");
+  };
+
+  let updateStatus = async function () {
+    let response = await axios.put("/update-status");
+  };
+
+  let deleteStatus = async function (statusIdNumber: number) {
+    let response = axios.delete(`delete-status/${statusIdNumber}`);
+  };
+
   return {
     statuses,
     /*methods*/
     retrieveStatuses,
+    createStatus,
+    updateStatus,
+    deleteStatus,
   };
 });
 

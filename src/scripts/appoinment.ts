@@ -22,3 +22,16 @@ export interface Appointment {
   doctor: Doctor;
   added_by: AddedBy;
 }
+
+export interface AppointmentPayload {
+  id?: number;
+  appointment_date: string;
+  appointment_time: string;
+  patient_id: number;
+  appointed_doctor_id: number;
+  reason: string;
+  status: string;
+  notes?: string;
+  room_number?: string;
+  duration?: number;
+}

@@ -1,3 +1,4 @@
+import type { AppointmentPayload } from "@/scripts/appoinment";
 import axios from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -14,6 +15,7 @@ const useAppoinmnetStore = defineStore("appoinments", () => {
   let addedBy = ref<number | undefined>(undefined);
 
   const buildParams = () => {
+
     const params: Record<string, any> = { per_page: per_page.value };
 
     if (findByDoctorId.value) params.doctor_id = findByDoctorId.value;
@@ -34,7 +36,7 @@ const useAppoinmnetStore = defineStore("appoinments", () => {
 
       if (response.data && response.data.data) {
         appointments.value = response.data.data.data;
-        console.log(appointments.value,'appo')
+        console.log(appointments.value, "appo");
       } else {
         appointments.value = response.data;
       }
@@ -55,13 +57,43 @@ const useAppoinmnetStore = defineStore("appoinments", () => {
     await retrieveAppoinments();
   };
 
+  let createAppoinment = async function (payload: AppointmentPayload) {
+    try {
+      let response = await axios.post("/api/create-appointment", {
+        payload,
+      });
+
+      if (response) {
+        await retrieveAppoinments();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let updateAppoinment = async function (payload: AppointmentPayload) {
+    try {
+      let response = await axios.post("/api/create-appointment", {
+        payload,
+      });
+      if (response) {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   return {
-    /*properties*/
     appointments,
     /*methods*/
     retrieveAppoinments,
     retrievePerPage,
     retrieveAppoinmentsByStatus,
+    createAppoinment,
+    updateAppoinment,
   };
 });
 
