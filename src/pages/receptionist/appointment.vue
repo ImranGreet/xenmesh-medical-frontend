@@ -23,15 +23,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { Input } from "@/components/ui/input";
 
-
-import { Input } from "@/components/ui/input"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabs"
+} from "@/components/ui/tabs";
 
 import {
   Select,
@@ -41,7 +40,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui/select';
 
 
 import Badge from "@/components/ui/badge/Badge.vue";
@@ -70,10 +69,10 @@ import useDoctorStore from "@/store/doctor";
 const appoinmentStore = useAppoinmnetStore();
 const statusStore = useStatusStore();
 const doctorStore = useDoctorStore();
+
 const { statuses } = storeToRefs(statusStore);
 const { appointments } = storeToRefs(appoinmentStore);
 const { doctors } = storeToRefs(doctorStore);
-
 
 
 const { retrieveAppoinments } = appoinmentStore;
