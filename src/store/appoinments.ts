@@ -30,7 +30,7 @@ const useAppoinmnetStore = defineStore('appoinments', () => {
 	const retrieveAppoinments = async function () {
 		try {
 			const response = await axios.get(
-				'/api/doctors/appointments/filter',
+				'/api/appointments/filter',
 				{
 					params: buildParams(),
 				}

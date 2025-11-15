@@ -5,13 +5,11 @@ import { ref } from 'vue';
 import { type Patient } from '@/scripts/patient';
 
 const usePatientStore = defineStore('patients', () => {
-	let patientList = ref<Patient[]>([]);
+	let patients = ref<Patient[]>([]);
 
 	let retrievePatients = async function () {
 		let response = await axios.get('/api/get-patient-list');
-		if (response) {
-			return 0;
-		}
+		patients.value = response.data.patientList;
 	};
 
 	let registerNewPatient = async function () {
@@ -22,7 +20,7 @@ const usePatientStore = defineStore('patients', () => {
 	};
 
 	return {
-		patientList,
+		patients,
 		/*methods*/
 		retrievePatients,
 		registerNewPatient,

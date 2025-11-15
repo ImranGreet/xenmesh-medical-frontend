@@ -17,15 +17,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-
-
-
+} from '@/components/ui/select';
 import { Input } from "@/components/ui/input";
 import Button from "@/components/ui/button/Button.vue";
-
-
-
 
 
 import {
@@ -36,143 +30,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
+} from "@/components/ui/dialog";
+
 import Badge from "@/components/ui/badge/Badge.vue";
+
+import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
 import Card from "@/components/shared/Card.vue";
 
+import usePatientStore from "@/store/patient";
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
+
+const patientStore = usePatientStore();
+
+const { patients } = storeToRefs(patientStore);
+const { retrievePatients } = patientStore;
+
+
+onMounted(async () => {
+  await retrievePatients();
+})
 
 
 
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-]
 </script>
 
 <template>
@@ -207,10 +88,10 @@ const invoices = [
 
     <div class="w-full mb-20">
       <div class="w-full flex gap-3.5">
-      <Card/>
-      <Card/>
-      <Card/>
-      <Card/>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
       </div>
     </div>
 
@@ -281,8 +162,11 @@ const invoices = [
       <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead class="w-[100px]">
-            Invoice
+          <TableHead>
+            Patient id
+          </TableHead>
+          <TableHead>
+            Patient Name
           </TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Method</TableHead>
@@ -292,29 +176,26 @@ const invoices = [
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="invoice in invoices" :key="invoice.invoice">
+        <TableRow v-for="patient in patients" :key="patient.id">
           <TableCell class="font-medium p-3">
-            {{ invoice.invoice }}
+            <span class="text-gray-500">{{ patient.generated_patient_id }}</span>
+          </TableCell>
+          <TableCell class="font-medium p-3">
+            {{ patient.patient_name }}
           </TableCell>
 
           <TableCell class="p-3">
-            <Badge variant="destructive" v-if="invoice.paymentStatus === `Unpaid`">{{ invoice.paymentStatus }}
-            </Badge>
-            <Badge variant="outline" v-if="invoice.paymentStatus === `Paid`">{{ invoice.paymentStatus }}</Badge>
-            <Badge variant="secondary" v-if="invoice.paymentStatus === `Pending`">{{ invoice.paymentStatus }}
-            </Badge>
+            <Badge variant="default" v-if="patient.is_active === 1" class="bg-blue-500">Active</Badge>
+            <Badge variant="destructive" v-if="patient.is_active === 0">Not Active</Badge>
+
           </TableCell>
-          <TableCell class="p-3">{{ invoice.paymentMethod }}</TableCell>
+          <TableCell class="p-3">{{ patient.phone_number }}</TableCell>
           <TableCell class="text-right p-3">
-            {{ invoice.totalAmount }}
+            {{ patient.allergies }}
           </TableCell>
         </TableRow>
       </TableBody>
     </Table>
   </section>
-
-
-
-
 
 </template>
