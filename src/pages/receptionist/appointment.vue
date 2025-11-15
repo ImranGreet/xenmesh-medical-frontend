@@ -54,140 +54,26 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
+
+import useAppoinmnetStore from "@/store/appoinments";
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
 
 
+const appoinmentStore = useAppoinmnetStore();
 
 
+const { appointments } = storeToRefs(appoinmentStore);
 
-const invoices = [
-  {
-    invoice: "INV001 INV001 INV001 INV001 INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-]
+const { retrieveAppoinments } = appoinmentStore;
+
+
+onMounted(async () => {
+  await retrieveAppoinments();
+})
+
+
 </script>
 
 <template>
@@ -293,6 +179,8 @@ const invoices = [
 
 
 
+
+
     <Tabs default-value="account" class="w-full">
 
       <TabsList class="h-10 p-6">
@@ -320,7 +208,8 @@ const invoices = [
           <div class="h-[600px] scroll-auto overflow-y-auto">
 
             <Table class="caption-top">
-              <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your recent invoices.</TableCaption>
+              <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your recent invoices.
+              </TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead class="w-[100px]">
@@ -334,42 +223,62 @@ const invoices = [
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow v-for="invoice in invoices" :key="invoice.invoice">
+                <TableRow v-for="appoinment in appointments" :key="appoinment.id">
                   <TableCell class="font-medium p-3">
-                    {{ invoice.invoice }}
-                  </TableCell>
+                    {{ appoinment.status }} </TableCell>
                   <TableCell class="p-3">
-                    <Badge variant="destructive" v-if="invoice.paymentStatus === `Unpaid`">{{ invoice.paymentStatus }}
-                    </Badge>
-                    <Badge variant="outline" v-if="invoice.paymentStatus === `Paid`">{{ invoice.paymentStatus }}</Badge>
-                    <Badge variant="secondary" v-if="invoice.paymentStatus === `Pending`">{{ invoice.paymentStatus }}
-                    </Badge>
+                    <Badge variant="destructive">{{ appoinment.status }}</Badge>
                   </TableCell>
-                  <TableCell class="p-3">{{ invoice.paymentMethod }}</TableCell>
+                  <TableCell class="p-3">{{ appoinment.appointment_date }}</TableCell>
                   <TableCell class="text-right p-3">
-                    {{ invoice.totalAmount }}
-                  </TableCell>
+                    {{ appoinment.reason }} </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
 
           </div>
 
-          <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
-            <PaginationContent v-slot="{ items }">
-              <PaginationPrevious />
+          <div class="flex gap-2">
 
-              <template v-for="(item, index) in items" :key="index">
-                <PaginationItem v-if="item.type === 'page'" :value="item.value" :is-active="item.value === page">
-                  {{ item.value }}
-                </PaginationItem>
-              </template>
+            <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="Per Page" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Per Page</SelectLabel>
+                  <SelectItem value="10">
+                    10
+                  </SelectItem>
+                  <SelectItem value="20">
+                    20
+                  </SelectItem>
+                  <SelectItem value="25">
+                    25
+                  </SelectItem>
+                  <SelectItem value="30">
+                    30
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 
-              <PaginationEllipsis :index="4" />
+            <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
+              <PaginationContent v-slot="{ items }">
+                <PaginationPrevious />
 
-              <PaginationNext />
-            </PaginationContent>
-          </Pagination>
+                <template v-for="(item, index) in items" :key="index">
+                  <PaginationItem v-if="item.type === 'page'" :value="item.value" :is-active="item.value === page">
+                    {{ item.value }}
+                  </PaginationItem>
+                </template>
+
+                <PaginationEllipsis :index="4" />
+
+                <PaginationNext />
+              </PaginationContent>
+            </Pagination>
+          </div>
         </section>
       </TabsContent>
     </Tabs>

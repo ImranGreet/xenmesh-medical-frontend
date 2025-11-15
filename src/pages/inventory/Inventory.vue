@@ -20,12 +20,7 @@ import {
 } from '@/components/ui/select'
 
 
-
 import Button from "@/components/ui/button/Button.vue";
-
-
-
-
 
 import {
     Dialog,
@@ -36,9 +31,11 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
+
 import Badge from "@/components/ui/badge/Badge.vue";
 import Card from "@/components/shared/Card.vue";
+
+import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
 
 
 
