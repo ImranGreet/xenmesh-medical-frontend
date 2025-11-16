@@ -13,6 +13,7 @@ export interface Patient {
 	address?: string;
 	emergency_contact_name?: string;
 	emergency_contact_phone?: string;
+	keep_records?: 0|1;
 	is_active: 0 | 1;
 	is_admitted: 0 | 1;
 	hospital_id: number;

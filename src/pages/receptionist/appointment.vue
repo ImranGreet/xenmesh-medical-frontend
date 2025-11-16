@@ -234,12 +234,13 @@ onMounted(async () => {
 
             <Table class="caption-top">
               <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your recent invoices.
-              </TableCaption>
+              </TableCaption> 
               <TableHeader>
                 <TableRow>
-                  <TableHead class="w-[100px]">
+                  <TableHead>
                     Invoice
                   </TableHead>
+                  <TableHead>Assigned Doctor</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Method</TableHead>
                   <TableHead class="text-right">
@@ -250,7 +251,12 @@ onMounted(async () => {
               <TableBody>
                 <TableRow v-for="appoinment in appointments" :key="appoinment.id">
                   <TableCell class="font-medium p-3">
-                    {{ appoinment.status }} </TableCell>
+                    {{ appoinment.status }}
+                   </TableCell>
+                  <TableCell class="font-medium p-3">
+                    {{ appoinment.added_by.name }}
+                   </TableCell>
+
                   <TableCell class="p-3">
                     <Badge variant="destructive">{{ appoinment.status }}</Badge>
                   </TableCell>

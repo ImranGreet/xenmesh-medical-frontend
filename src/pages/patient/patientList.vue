@@ -56,7 +56,7 @@ import {
 } from '@/components/ui/popover';
 
 const defaultPlaceholder = today(getLocalTimeZone())
-const date = ref() as Ref<DateValue>  
+const date = ref() as Ref<DateValue>
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
@@ -64,7 +64,7 @@ const df = new DateFormatter('en-US', {
 
 
 
-/*state*/ 
+/*state*/
 import usePatientStore from "@/store/patient";
 import useDoctorStore from "@/store/doctor";
 
@@ -138,25 +138,18 @@ let deactivePatientCount = ref<number>(125);
 
 
         <Popover v-slot="{ close }">
-    <PopoverTrigger as-child>
-      <Button
-        variant="outline"
-        :class="cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground')"
-      >
-        <CalendarIcon />
-        {{ date ? df.format(date.toDate(getLocalTimeZone())) : "Pick a date" }}
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent class="w-auto p-0" align="start">
-      <Calendar
-        v-model="date"
-        :default-placeholder="defaultPlaceholder"
-        layout="month-and-year"
-        initial-focus
-        @update:model-value="close"
-      />
-    </PopoverContent>
-  </Popover>
+          <PopoverTrigger as-child>
+            <Button variant="outline"
+              :class="cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground')">
+              <CalendarIcon />
+              {{ date ? df.format(date.toDate(getLocalTimeZone())) : "Pick a date" }}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="w-auto p-0" align="start">
+            <Calendar v-model="date" :default-placeholder="defaultPlaceholder" layout="month-and-year" initial-focus
+              @update:model-value="close" />
+          </PopoverContent>
+        </Popover>
 
         <Select>
           <SelectTrigger>
@@ -206,6 +199,7 @@ let deactivePatientCount = ref<number>(125);
           <TableHead class="text-gray-800">Status</TableHead>
           <TableHead class="text-gray-800">Phone Number</TableHead>
           <TableHead class="text-gray-800">Age</TableHead>
+          <TableHead class="text-gray-800">Keep Records</TableHead>
           <TableHead class="text-gray-800 text-right">Blood Group</TableHead>
           <TableHead class="text-left text-gray-800">
             Allergies
@@ -240,6 +234,10 @@ let deactivePatientCount = ref<number>(125);
           </TableCell>
           <TableCell class="p-3">{{ patient.phone_number }}</TableCell>
           <TableCell class="p-3">{{ patient.age }}</TableCell>
+          <TableCell class="p-3">
+            <Badge variant="outline" v-if="patient.keep_records === 1" class="bg-blue-500 text-white">Yes</Badge>
+            <Badge variant="destructive" v-else>No</Badge>
+          </TableCell>
           <TableCell class="p-3 text-center">
             <Badge v-if="patient.blood_group === 'O-'" variant="destructive">{{ patient.blood_group }}</Badge>
             <span v-else>{{ patient.blood_group }}</span>
@@ -322,7 +320,3 @@ let deactivePatientCount = ref<number>(125);
   </section>
 
 </template>
-
-
-
-
