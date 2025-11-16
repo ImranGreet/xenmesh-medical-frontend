@@ -48,7 +48,16 @@ const { patients } = storeToRefs(patientStore);
 const { retrievePatients } = patientStore;
 
 
+import useDoctorStore from "@/store/doctor";
+
+const doctorStore = useDoctorStore();
+const { doctors } = storeToRefs(doctorStore);
+
+const { retrieveDoctors } = doctorStore;
+
+
 onMounted(async () => {
+  await retrieveDoctors();
   await retrievePatients();
 })
 
@@ -108,12 +117,11 @@ let deactivePatientCount = ref<number>(125);
           <SelectTrigger>
             <SelectValue placeholder="Select a doctor" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent class="max-h-72 overflow-y-auto">
             <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">
-                Apple
-              </SelectItem>
+              <SelectLabel>Doctors</SelectLabel>
+              <SelectItem value="{{ doctor.id }}" v-for="doctor in doctors">{{ doctor.name }}</SelectItem>
+
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -184,7 +192,10 @@ let deactivePatientCount = ref<number>(125);
           </TableCell>
           <TableCell class="p-3">{{ patient.phone_number }}</TableCell>
           <TableCell class="p-3">{{ patient.age }}</TableCell>
-          <TableCell class="p-3 text-center">{{ patient.blood_group }}</TableCell>
+          <TableCell class="p-3 text-center">
+            <Badge v-if="patient.blood_group === 'O-'" variant="destructive">{{ patient.blood_group }}</Badge>
+            <span v-else>{{ patient.blood_group }}</span>
+          </TableCell>
           <TableCell class="text-right p-3">
             {{ patient.allergies }}
           </TableCell>
@@ -216,7 +227,7 @@ let deactivePatientCount = ref<number>(125);
                 <DialogContent class="sm:max-w-xl block">
                   <DialogHeader>
                     <DialogTitle class="mb-5">Patient </DialogTitle>
-                    <div class="bg-white rounded-2xl  space-y-4">
+                    <div class="bg-white rounded-2xl  space-y-4 text-left">
 
                       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
@@ -240,7 +251,7 @@ let deactivePatientCount = ref<number>(125);
                         </div>
                       </div>
                     </div>
-                    
+
                   </DialogHeader>
                   <AddnewAppoinment />
                   <DialogFooter class="mt-2">

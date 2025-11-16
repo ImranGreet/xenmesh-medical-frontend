@@ -7,13 +7,12 @@
       <!-- Gender -->
       <div>
         <Label for="gender" class="text-sm font-medium text-gray-700">Select Doctor</Label>
-        <Select v-model="form.gender" class="mt-5 w-full">
+        <Select v-model="form.gender" class="mt-5 w-full" >
           <SelectTrigger class="w-full h-11 border rounded-lg px-3">
             <SelectValue placeholder="Select gender" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="male">Male</SelectItem>
-            <SelectItem value="female">Female</SelectItem>
+          <SelectContent class="max-h-48 overflow-y-auto">
+            <SelectItem value="{{ doctor.id }}" v-for="doctor in doctors" >{{ doctor.name }}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -45,9 +44,22 @@
 
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Label } from '@/components/ui/label'
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+
+import useDoctorStore from "@/store/doctor";
+import { storeToRefs } from 'pinia';
+
+const doctorStore = useDoctorStore();
+const { doctors } = storeToRefs(doctorStore);
+
+const { retrieveDoctors } = doctorStore; 
+
+onMounted( async ()=>{
+  await retrieveDoctors();
+});
+
 
 const form = ref({
   first_name: '',
