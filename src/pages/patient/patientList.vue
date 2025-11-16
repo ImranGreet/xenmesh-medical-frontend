@@ -1,4 +1,8 @@
 <script setup lang="ts">
+
+import { storeToRefs } from "pinia";
+import { onMounted, ref } from "vue";
+
 import {
   Table,
   TableBody,
@@ -18,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+
 import { Input } from "@/components/ui/input";
 import Button from "@/components/ui/button/Button.vue";
 
@@ -33,33 +38,51 @@ import {
 } from "@/components/ui/dialog";
 
 import Badge from "@/components/ui/badge/Badge.vue";
-
-import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
 import Card from "@/components/shared/Card.vue";
 
-import usePatientStore from "@/store/patient";
-import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
 import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
+/*date picker*/
+import type { DateValue } from '@internationalized/date'
+import { DateFormatter, getLocalTimeZone, today } from '@internationalized/date';
+import { CalendarIcon } from 'lucide-vue-next'
+import { cn } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar'
 
-const patientStore = usePatientStore();
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
-const { patients } = storeToRefs(patientStore);
-const { retrievePatients } = patientStore;
+const defaultPlaceholder = today(getLocalTimeZone())
+const date = ref() as Ref<DateValue>  
+
+const df = new DateFormatter('en-US', {
+  dateStyle: 'long',
+})
 
 
+
+/*state*/ 
+import usePatientStore from "@/store/patient";
 import useDoctorStore from "@/store/doctor";
 
+const patientStore = usePatientStore();
 const doctorStore = useDoctorStore();
+
+const { patients } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
+const { retrievePatients } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 
 onMounted(async () => {
   await retrieveDoctors();
   await retrievePatients();
-})
+});
+
 
 let todaysPatient = ref<number>(25);
 let thisMonthPatientCount = ref<number>(250);
@@ -113,6 +136,28 @@ let deactivePatientCount = ref<number>(125);
       <h1 class="text-2xl font-semibold">Find Patients</h1>
       <div class="flex flex-wrap gap-1.5">
 
+
+        <Popover v-slot="{ close }">
+    <PopoverTrigger as-child>
+      <Button
+        variant="outline"
+        :class="cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground')"
+      >
+        <CalendarIcon />
+        {{ date ? df.format(date.toDate(getLocalTimeZone())) : "Pick a date" }}
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent class="w-auto p-0" align="start">
+      <Calendar
+        v-model="date"
+        :default-placeholder="defaultPlaceholder"
+        layout="month-and-year"
+        initial-focus
+        @update:model-value="close"
+      />
+    </PopoverContent>
+  </Popover>
+
         <Select>
           <SelectTrigger>
             <SelectValue placeholder="Select a doctor" />
@@ -120,7 +165,7 @@ let deactivePatientCount = ref<number>(125);
           <SelectContent class="max-h-72 overflow-y-auto">
             <SelectGroup>
               <SelectLabel>Doctors</SelectLabel>
-              <SelectItem value="{{ doctor.id }}" v-for="doctor in doctors">{{ doctor.name }}</SelectItem>
+              <SelectItem value="{{ doctor.name}}" v-for="doctor in doctors">{{ doctor.name }}</SelectItem>
 
             </SelectGroup>
           </SelectContent>
@@ -131,9 +176,12 @@ let deactivePatientCount = ref<number>(125);
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">
-                Apple
+              <SelectLabel>Status</SelectLabel>
+              <SelectItem value="deactive">
+                Deactive
+              </SelectItem>
+              <SelectItem value="active">
+                Active
               </SelectItem>
             </SelectGroup>
           </SelectContent>
@@ -145,7 +193,7 @@ let deactivePatientCount = ref<number>(125);
 
     <Input placeholder="Patient Name" />
 
-    <Table class="caption-top mt-5">
+    <Table class="caption-top mt-5 ">
       <TableCaption class="text-xl font-semibold border-b pb-2">A list of Registered Patients.</TableCaption>
       <TableHeader class="font-bold text-md ">
         <TableRow>
@@ -159,7 +207,7 @@ let deactivePatientCount = ref<number>(125);
           <TableHead class="text-gray-800">Phone Number</TableHead>
           <TableHead class="text-gray-800">Age</TableHead>
           <TableHead class="text-gray-800 text-right">Blood Group</TableHead>
-          <TableHead class="text-right text-gray-800">
+          <TableHead class="text-left text-gray-800">
             Allergies
           </TableHead>
           <TableHead class="text-right text-gray-800">
@@ -196,7 +244,7 @@ let deactivePatientCount = ref<number>(125);
             <Badge v-if="patient.blood_group === 'O-'" variant="destructive">{{ patient.blood_group }}</Badge>
             <span v-else>{{ patient.blood_group }}</span>
           </TableCell>
-          <TableCell class="text-right p-3">
+          <TableCell class="text-left p-3">
             {{ patient.allergies }}
           </TableCell>
           <TableCell class="text-right p-3 capitalize">
@@ -274,3 +322,7 @@ let deactivePatientCount = ref<number>(125);
   </section>
 
 </template>
+
+
+
+

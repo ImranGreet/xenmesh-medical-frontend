@@ -1,18 +1,19 @@
 <template>
-  <div class="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow space-y-6">
+  <div class="max-w-3xl mx-auto py-6 bg-white rounded-2xl  space-y-6">
   
 
     <form @submit.prevent="registerPatient" class="space-y-6">
 
       <!-- Gender -->
       <div>
+        
         <Label for="gender" class="text-sm font-medium text-gray-700">Select Doctor</Label>
         <Select v-model="form.gender" class="mt-5 w-full" >
           <SelectTrigger class="w-full h-11 border rounded-lg px-3">
             <SelectValue placeholder="Select gender" />
           </SelectTrigger>
           <SelectContent class="max-h-48 overflow-y-auto">
-            <SelectItem value="{{ doctor.id }}" v-for="doctor in doctors" >{{ doctor.name }}</SelectItem>
+            <SelectItem value="{{ doctor.name}}" v-for="doctor in doctors" >{{ doctor.name }}</SelectItem>
           </SelectContent>
         </Select>
       </div>
