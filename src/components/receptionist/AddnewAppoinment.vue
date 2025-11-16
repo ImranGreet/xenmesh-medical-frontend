@@ -1,65 +1,53 @@
 <template>
-  <div class="max-w-full mx-auto p-4 sm:p-6 bg-white rounded-2xl  space-y-4">
-    <h2 class="text-xl font-semibold text-gray-800 text-center"></h2>
+  <div class="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow space-y-6">
+  
 
-    <form @submit.prevent="registerPatient" class="space-y-3">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <Label for="first_name">First Name</Label>
-          <Input class="mt-2"  id="first_name" v-model="form.first_name" placeholder="John" required />
-        </div>
+    <form @submit.prevent="registerPatient" class="space-y-6">
 
-        <div>
-          <Label for="last_name">Last Name</Label>
-          <Input class="mt-2"  id="last_name" v-model="form.last_name" placeholder="Doe" required  />
-        </div>
-      </div>
-
+      <!-- Gender -->
       <div>
-        <Label for="phone">Phone Number</Label>
-        <Input class="mt-2"  id="phone" type="tel" v-model="form.phone" placeholder="+8801XXXXXXXXX" required />
+        <Label for="gender" class="text-sm font-medium text-gray-700">Select Doctor</Label>
+        <Select v-model="form.gender" class="mt-5 w-full">
+          <SelectTrigger class="w-full h-11 border rounded-lg px-3">
+            <SelectValue placeholder="Select gender" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="male">Male</SelectItem>
+            <SelectItem value="female">Female</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <div>
-        <Label for="email">Email</Label>
-        <Input class="mt-2"  id="email" type="email" v-model="form.email" placeholder="example@mail.com" />
-      </div>
+      <!-- Schedules Section -->
+      <div class="bg-gray-50 ">
+        <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+          <svg class="w-5 h-5 text-gray-600">
+            <use href="#calendar-icon" />
+          </svg>
+          Schedules
+        </h3>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <Label for="gender">Gender</Label>
-          <Select v-model="form.gender" class="mt-2" >
-            <SelectTrigger>
-              <SelectValue placeholder="Select gender" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
+        <div class="mt-4 space-y-3">
+          <div class="flex justify-between items-center bg-white  rounded-lgshadow-sm">
+            <span class="font-medium text-gray-700">Sunday</span>
+            <div class="text-sm text-gray-600">
+              <p>10:00 AM - 2:00 PM</p>
+              <p>4:00 PM - 6:00 PM</p>
+            </div>
+          </div>
         </div>
-
-        <div>
-          <Label for="dob">Date of Birth</Label>
-          <Input class="mt-2" id="dob" type="date" v-model="form.dob" required />
-        </div>
       </div>
 
-      <div>
-        <Label for="address">Address</Label>
-        <Textarea class="mt-2" id="address" v-model="form.address" placeholder="Enter full address" rows="2" />
-      </div>
+      
     </form>
   </div>
 </template>
 
+
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
 
 const form = ref({
   first_name: '',
