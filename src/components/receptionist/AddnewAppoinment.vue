@@ -10,7 +10,7 @@
         <Label for="gender" class="text-sm font-medium text-gray-700">Select Doctor</Label>
         <Select v-model="form.gender" class="mt-5 w-full" >
           <SelectTrigger class="w-full h-11 border rounded-lg px-3">
-            <SelectValue placeholder="Select gender" />
+            <SelectValue placeholder="Select a doctor" />
           </SelectTrigger>
           <SelectContent class="max-h-48 overflow-y-auto">
             <SelectItem value="{{ doctor.name}}" v-for="doctor in doctors" >{{ doctor.name }}</SelectItem>

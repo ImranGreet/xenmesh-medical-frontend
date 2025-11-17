@@ -37,6 +37,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+
 import Badge from "@/components/ui/badge/Badge.vue";
 import Card from "@/components/shared/Card.vue";
 
@@ -55,14 +66,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-const defaultPlaceholder = today(getLocalTimeZone())
+const defaultPlaceholder = today(getLocalTimeZone());
 const date = ref() as Ref<DateValue>
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
-})
-
-
+});
 
 /*state*/
 import usePatientStore from "@/store/patient";
@@ -77,18 +86,17 @@ const { doctors } = storeToRefs(doctorStore);
 const { retrievePatients } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
-
-onMounted(async () => {
-  await retrieveDoctors();
-  await retrievePatients();
-});
-
+let perPage = ref<number>(5);
 
 let todaysPatient = ref<number>(25);
 let thisMonthPatientCount = ref<number>(250);
 let activePatientCount = ref<number>(1250);
 let deactivePatientCount = ref<number>(125);
 
+onMounted(async () => {
+  await retrieveDoctors();
+  await retrievePatients(perPage.value);
+});
 
 </script>
 
@@ -214,6 +222,9 @@ let deactivePatientCount = ref<number>(125);
             Address
           </TableHead>
           <TableHead class="text-left text-gray-800">
+            Created By
+          </TableHead>
+          <TableHead class="text-left text-gray-800">
             Action
           </TableHead>
         </TableRow>
@@ -257,6 +268,12 @@ let deactivePatientCount = ref<number>(125);
           </TableCell>
           <TableCell class="text-center p-3">
             {{ patient.address }}
+          </TableCell>
+          <TableCell class="text-center p-3">
+            <div class="text-left">
+              <p class="text-md font-semibold"> {{ patient.created_by?.name }}</p>
+              <p> {{ patient.created_by?.role }}</p>
+            </div>
           </TableCell>
           <TableCell class="text-left p-3">
             <div class="flex gap-1">
@@ -317,6 +334,50 @@ let deactivePatientCount = ref<number>(125);
         </TableRow>
       </TableBody>
     </Table>
+    <div class="w-full flex justify-between items-center">
+
+
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Per Page" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Per Page</SelectLabel>
+            <SelectItem value="10">
+              10
+            </SelectItem>
+            <SelectItem value="20">
+              20
+            </SelectItem>
+            <SelectItem value="25">
+              25
+            </SelectItem>
+            <SelectItem value="30">
+              30
+            </SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+
+
+
+      <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
+        <PaginationContent v-slot="{ items }">
+          <PaginationPrevious />
+
+          <template v-for="(item, index) in items" :key="index">
+            <PaginationItem v-if="item.type === 'page'" :value="item.value" :is-active="item.value === page">
+              {{ item.value }}
+            </PaginationItem>
+          </template>
+
+          <PaginationEllipsis :index="4" />
+
+          <PaginationNext />
+        </PaginationContent>
+      </Pagination>
+    </div>
   </section>
 
 </template>

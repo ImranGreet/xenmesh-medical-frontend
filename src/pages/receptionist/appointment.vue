@@ -234,7 +234,7 @@ onMounted(async () => {
 
             <Table class="caption-top">
               <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your recent invoices.
-              </TableCaption> 
+              </TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead>
@@ -252,10 +252,10 @@ onMounted(async () => {
                 <TableRow v-for="appoinment in appointments" :key="appoinment.id">
                   <TableCell class="font-medium p-3">
                     {{ appoinment.status }}
-                   </TableCell>
+                  </TableCell>
                   <TableCell class="font-medium p-3">
                     {{ appoinment.added_by.name }}
-                   </TableCell>
+                  </TableCell>
 
                   <TableCell class="p-3">
                     <Badge variant="destructive">{{ appoinment.status }}</Badge>
@@ -269,7 +269,11 @@ onMounted(async () => {
 
           </div>
 
-          <div class="flex gap-2">
+
+
+
+          <div class="w-full flex justify-between items-center">
+
 
             <Select>
               <SelectTrigger>
@@ -294,6 +298,8 @@ onMounted(async () => {
               </SelectContent>
             </Select>
 
+
+
             <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
               <PaginationContent v-slot="{ items }">
                 <PaginationPrevious />
@@ -310,6 +316,7 @@ onMounted(async () => {
               </PaginationContent>
             </Pagination>
           </div>
+
         </section>
       </TabsContent>
     </Tabs>
