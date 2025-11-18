@@ -280,7 +280,7 @@ onMounted(async () => {
           </TableCell>
           <TableCell class="text-left ">
             <p v-for="bill in patient.bills">
-              {{ bill.total }}
+              {{ Math.floor(bill.total) }}
             </p>
           </TableCell>
           <TableCell class="text-left p-3">
