@@ -8,13 +8,13 @@ const usePatientStore = defineStore('patients', () => {
 	let patients = ref<Patient[]>([]);
 
 	let retrievePatients = async function (perPage: number = 10) {
-		let response = await axios.get(`/api/get-patient-list`, {
+		let response = await axios.get(`/api/filter-patient-list`, {
 			params: {
 				per_page: perPage,
 			},
 		});
 		patients.value = response.data.patientList;
-		console.log(patients.value,"pop");
+		console.log(patients.value, 'pop');
 	};
 
 	let registerNewPatient = async function () {

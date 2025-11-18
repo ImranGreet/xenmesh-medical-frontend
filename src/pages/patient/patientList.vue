@@ -86,7 +86,7 @@ const { doctors } = storeToRefs(doctorStore);
 const { retrievePatients } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
-let perPage = ref<number>(5);
+let perPage = ref<number>(10);
 
 let todaysPatient = ref<number>(25);
 let thisMonthPatientCount = ref<number>(250);
@@ -225,6 +225,9 @@ onMounted(async () => {
             Created By
           </TableHead>
           <TableHead class="text-left text-gray-800">
+            Bill
+          </TableHead>
+          <TableHead class="text-left text-gray-800">
             Action
           </TableHead>
         </TableRow>
@@ -274,6 +277,11 @@ onMounted(async () => {
               <p class="text-md font-semibold"> {{ patient.created_by?.name }}</p>
               <p> {{ patient.created_by?.role }}</p>
             </div>
+          </TableCell>
+          <TableCell class="text-left ">
+            <p v-for="bill in patient.bills">
+              {{ bill.total }}
+            </p>
           </TableCell>
           <TableCell class="text-left p-3">
             <div class="flex gap-1">
@@ -327,6 +335,11 @@ onMounted(async () => {
               <Button class="w-5 h-5">
                 <svg class="w-2.5 h-2.5 text-white">
                   <use href="#component-icon" />
+                </svg>
+              </Button>
+              <Button variant="outline" class="w-5 h-5">
+                <svg class="w-2.5 h-2.5">
+                  <use href="#expand-icon" />
                 </svg>
               </Button>
             </div>

@@ -18,7 +18,8 @@ export interface Patient {
 	is_admitted: 0 | 1;
 	hospital_id: number;
 	added_by_id: number;
-	created_by: Creator|null;
+	created_by: Creator | null;
+	bills: Bill[];
 }
 
 interface Creator {
@@ -27,4 +28,9 @@ interface Creator {
 	email: string;
 	role: string;
 	username: string;
+}
+
+interface Bill {
+	patient_id: number;
+	total: number;
 }
