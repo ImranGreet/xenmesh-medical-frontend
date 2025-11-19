@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import {
   Table,
@@ -80,18 +80,27 @@ import useDoctorStore from "@/store/doctor";
 const patientStore = usePatientStore();
 const doctorStore = useDoctorStore();
 
-const { patients } = storeToRefs(patientStore);
+const { patients, searchKeyword } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
 const { retrievePatients } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
-let perPage = ref<number>(10);
 
 let todaysPatient = ref<number>(25);
 let thisMonthPatientCount = ref<number>(250);
 let activePatientCount = ref<number>(1250);
 let deactivePatientCount = ref<number>(125);
+let perPage = ref<number>(10);
+
+
+watch(perPage, (newValue) => {
+  retrievePatients(newValue);
+});
+
+watch(searchKeyword, () => {
+  retrievePatients(perPage.value);
+});
 
 onMounted(async () => {
   await retrieveDoctors();
@@ -192,7 +201,7 @@ onMounted(async () => {
     </div>
 
 
-    <Input placeholder="Patient Name" />
+    <Input placeholder="Search by Patient id ,patien name" v-model="searchKeyword"/>
 
     <Table class="caption-top mt-5 ">
       <TableCaption class="text-xl font-semibold border-b pb-2">A list of Registered Patients.</TableCaption>
@@ -279,9 +288,9 @@ onMounted(async () => {
             </div>
           </TableCell>
           <TableCell class="text-left ">
-            <p v-for="bill in patient.bills">
+            <span v-for="bill in patient.bills">
               {{ Math.floor(bill.total) }}
-            </p>
+            </span>
           </TableCell>
           <TableCell class="text-left p-3">
             <div class="flex gap-1">
@@ -350,7 +359,7 @@ onMounted(async () => {
     <div class="w-full flex justify-between items-center">
 
 
-      <Select>
+      <Select v-model="perPage" onchange="retrievePatients">
         <SelectTrigger>
           <SelectValue placeholder="Per Page" />
         </SelectTrigger>

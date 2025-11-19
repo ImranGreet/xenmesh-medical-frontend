@@ -6,11 +6,13 @@ import { type Patient } from '@/scripts/patient';
 
 const usePatientStore = defineStore('patients', () => {
 	let patients = ref<Patient[]>([]);
+	let searchKeyword = ref<number | string>();
 
 	let retrievePatients = async function (perPage: number = 10) {
 		let response = await axios.get(`/api/filter-patient-list`, {
 			params: {
 				per_page: perPage,
+				serach: searchKeyword.value,
 			},
 		});
 		patients.value = response.data.patientList;
@@ -26,6 +28,7 @@ const usePatientStore = defineStore('patients', () => {
 
 	return {
 		patients,
+		searchKeyword,
 		/*methods*/
 		retrievePatients,
 		registerNewPatient,
