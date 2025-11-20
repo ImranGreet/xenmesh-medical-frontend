@@ -7,6 +7,7 @@ import { type Patient } from '@/scripts/patient';
 const usePatientStore = defineStore('patients', () => {
 	let patients = ref<Patient[]>([]);
 	let searchKeyword = ref<number | string>();
+	let metaKeyword = ref<Object>();
 
 	let retrievePatients = async function (perPage: number = 10) {
 		let response = await axios.get(`/api/filter-patient-list`, {
@@ -16,7 +17,8 @@ const usePatientStore = defineStore('patients', () => {
 			},
 		});
 		patients.value = response.data.patientList;
-		console.log(patients.value, 'pop');
+
+		metaKeyword.value = response.data.meta;
 	};
 
 	let registerNewPatient = async function () {

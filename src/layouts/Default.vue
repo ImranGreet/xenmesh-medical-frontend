@@ -69,7 +69,7 @@ import {
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
             <Button variant="outline">
-              Open
+              Imran Hossain
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent class="w-56">

@@ -2,6 +2,8 @@
 
 import { storeToRefs } from "pinia";
 import { onMounted, ref, watch } from "vue";
+import type { Ref } from 'vue'
+
 
 import {
   Table,
