@@ -39,6 +39,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+
 
 import {
   Pagination,
@@ -118,26 +127,7 @@ onMounted(async () => {
     <div class="w-full flex justify-between items-center py-10">
       <h1 class="text-2xl font-bold">Patient Management</h1>
 
-      <Dialog>
-        <DialogTrigger as-child>
-          <Button>
-            + Add New Patient
-          </Button>
-        </DialogTrigger>
-        <DialogContent class="sm:max-w-xl block">
-          <DialogHeader>
-            <DialogTitle>Patient </DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <PatientRegistration />
-          <DialogFooter>
-            <Button type="submit">
-              Add Patient </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+
     </div>
 
 
@@ -199,11 +189,30 @@ onMounted(async () => {
           </SelectContent>
         </Select>
         <Button class="justify-self-end">+ Export</Button>
+
+
+
+        <Sheet class="max-w-2xs">
+          <SheetTrigger>
+            <Button variant="outline">
+              + Add New Patient
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Are you absolutely sure?</SheetTitle>
+              <SheetDescription>
+                <PatientRegistration />
+              </SheetDescription>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+
       </div>
     </div>
 
 
-    <Input placeholder="Search by Patient id ,patien name" v-model="searchKeyword"/>
+    <Input placeholder="Search by Patient id ,patien name" v-model="searchKeyword" />
 
     <Table class="caption-top mt-5 ">
       <TableCaption class="text-xl font-semibold border-b pb-2">A list of Registered Patients.</TableCaption>
@@ -297,62 +306,60 @@ onMounted(async () => {
           <TableCell class="text-left p-3">
             <div class="flex gap-1">
 
-
-              <Dialog>
-                <DialogTrigger as-child>
+              <Sheet>
+                <SheetTrigger>
                   <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
                     <svg class="w-2.5 h-2.5 text-white">
                       <use href="#plus-icon" />
                     </svg>
                   </Button>
-                </DialogTrigger>
-                <DialogContent class="sm:max-w-xl block">
-                  <DialogHeader>
-                    <DialogTitle class="mb-5">Patient </DialogTitle>
-                    <div class="bg-white rounded-2xl  space-y-4 text-left">
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Are you absolutely sure?</SheetTitle>
+                    <SheetDescription>
+                      <AddnewAppoinment />
+                    </SheetDescription>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
 
-                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <p class="text-sm text-gray-500">Patient Name</p>
-                          <p class="text-base font-medium text-gray-800">Imran Hossain</p>
-                        </div>
+              <Sheet>
+                <SheetTrigger>
+                  <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
+                    <svg class="w-2.5 h-2.5 text-white">
+                      <use href="#component-icon" />
+                    </svg>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Are you absolutely sure?</SheetTitle>
+                    <SheetDescription>
+                      <AddnewAppoinment />
+                    </SheetDescription>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
+              <Sheet>
+                <SheetTrigger>
+                  <Button variant="outline" class="w-5 h-5">
+                    <svg class="w-2.5 h-2.5">
+                      <use href="#expand-icon" />
+                    </svg>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Are you absolutely sure?</SheetTitle>
+                    <SheetDescription>
+                      <AddnewAppoinment />
+                    </SheetDescription>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
 
-                        <div>
-                          <p class="text-sm text-gray-500">Gender</p>
-                          <p class="text-base font-medium text-gray-800 capitalize">Male</p>
-                        </div>
 
-                        <div>
-                          <p class="text-sm text-gray-500">Appointed Doctor</p>
-                          <p class="text-base font-medium text-gray-800">Xenifer Ahmed</p>
-                        </div>
-
-                        <div>
-                          <p class="text-sm text-gray-500">Patient ID</p>
-                          <p class="text-base font-medium text-gray-800">PAT-xsionm</p>
-                        </div>
-                      </div>
-                    </div>
-
-                  </DialogHeader>
-                  <AddnewAppoinment />
-                  <DialogFooter class="mt-2">
-                    <Button type="submit">
-                      Add Patient </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-
-              <Button class="w-5 h-5">
-                <svg class="w-2.5 h-2.5 text-white">
-                  <use href="#component-icon" />
-                </svg>
-              </Button>
-              <Button variant="outline" class="w-5 h-5">
-                <svg class="w-2.5 h-2.5">
-                  <use href="#expand-icon" />
-                </svg>
-              </Button>
             </div>
           </TableCell>
         </TableRow>

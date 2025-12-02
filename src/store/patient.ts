@@ -9,7 +9,7 @@ const usePatientStore = defineStore('patients', () => {
 	let searchKeyword = ref<number | string>();
 	let metaKeyword = ref<Object>();
 
-	let retrievePatients = async function (perPage: number = 10) {
+	let retrievePatients = async function (perPage: number = 100) {
 		let response = await axios.get(`/api/filter-patient-list`, {
 			params: {
 				per_page: perPage,
