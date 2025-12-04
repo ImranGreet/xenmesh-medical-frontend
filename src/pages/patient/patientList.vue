@@ -2,7 +2,6 @@
 
 import { storeToRefs } from "pinia";
 import { onMounted, ref, watch } from "vue";
-import type { Ref } from 'vue'
 
 
 import {
@@ -30,16 +29,6 @@ import Button from "@/components/ui/button/Button.vue";
 
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import {
   Sheet,
   SheetContent,
   SheetDescription,
@@ -64,25 +53,6 @@ import Card from "@/components/shared/Card.vue";
 
 import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
 import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
-/*date picker*/
-import type { DateValue } from '@internationalized/date'
-import { DateFormatter, getLocalTimeZone, today } from '@internationalized/date';
-import { CalendarIcon } from 'lucide-vue-next'
-import { cn } from '@/lib/utils';
-import { Calendar } from '@/components/ui/calendar'
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-
-const defaultPlaceholder = today(getLocalTimeZone());
-const date = ref() as Ref<DateValue>
-
-const df = new DateFormatter('en-US', {
-  dateStyle: 'long',
-});
 
 /*state*/
 import usePatientStore from "@/store/patient";
@@ -145,20 +115,6 @@ onMounted(async () => {
       <h1 class="text-2xl font-semibold">Find Patients</h1>
       <div class="flex flex-wrap gap-1.5">
 
-
-        <Popover v-slot="{ close }">
-          <PopoverTrigger as-child>
-            <Button variant="outline"
-              :class="cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground')">
-              <CalendarIcon />
-              {{ date ? df.format(date.toDate(getLocalTimeZone())) : "Pick a date" }}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent class="w-auto p-0" align="start">
-            <Calendar v-model="date" :default-placeholder="defaultPlaceholder" layout="month-and-year" initial-focus
-              @update:model-value="close" />
-          </PopoverContent>
-        </Popover>
 
         <Select>
           <SelectTrigger>
