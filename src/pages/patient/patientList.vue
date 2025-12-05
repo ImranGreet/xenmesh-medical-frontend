@@ -30,8 +30,10 @@ import Button from "@/components/ui/button/Button.vue";
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -145,22 +147,31 @@ onMounted(async () => {
           </SelectContent>
         </Select>
         <Button class="justify-self-end">+ Export</Button>
-
-
-
-        <Sheet class="max-w-2xs">
-          <SheetTrigger>
+        
+        <Sheet>
+          <SheetTrigger as-child>
             <Button variant="outline">
               + Add New Patient
             </Button>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent class="sm:max-w-md">
             <SheetHeader>
-              <SheetTitle>Are you absolutely sure?</SheetTitle>
+              <SheetTitle>Patient Registration</SheetTitle>
               <SheetDescription>
-                <PatientRegistration />
               </SheetDescription>
             </SheetHeader>
+            <PatientRegistration class="overflow-y-auto" />
+
+            <SheetFooter>
+              <Button type="submit">
+                Save changes
+              </Button>
+              <SheetClose as-child>
+                <Button variant="outline">
+                  Close
+                </Button>
+              </SheetClose>
+            </SheetFooter>
           </SheetContent>
         </Sheet>
 
@@ -194,7 +205,7 @@ onMounted(async () => {
           <TableHead class="text-right text-gray-800">
             Admitted
           </TableHead>
-          <TableHead class="text-center text-gray-800">
+          <TableHead class="text-left text-gray-800">
             Address
           </TableHead>
           <TableHead class="text-left text-gray-800">
@@ -239,13 +250,11 @@ onMounted(async () => {
             {{ patient.sex }}
           </TableCell>
           <TableCell class="text-right p-3">
-
-
             <Badge v-if="patient.is_admitted === 1" variant="default">Yes</Badge>
             <Badge v-if="patient.is_admitted === 0" variant="destructive">No</Badge>
 
           </TableCell>
-          <TableCell class="text-center p-3">
+          <TableCell class="text-left p-3">
             {{ patient.address }}
           </TableCell>
           <TableCell class="text-center p-3">
