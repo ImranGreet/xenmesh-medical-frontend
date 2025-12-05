@@ -66,7 +66,7 @@ const doctorStore = useDoctorStore();
 const { patients, searchKeyword } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
-const { retrievePatients } = patientStore;
+const { retrievePatients,registerNewPatient } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 
@@ -89,6 +89,11 @@ onMounted(async () => {
   await retrieveDoctors();
   await retrievePatients(perPage.value);
 });
+
+
+let changesFalse = function() {
+  console.log("Changes not saved");
+};
 
 </script>
 
@@ -163,7 +168,7 @@ onMounted(async () => {
             <PatientRegistration class="overflow-y-auto" />
 
             <SheetFooter>
-              <Button type="submit">
+              <Button type="submit" @click="registerNewPatient">
                 Save changes
               </Button>
               <SheetClose as-child>

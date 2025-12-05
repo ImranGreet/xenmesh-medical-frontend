@@ -23,7 +23,7 @@
 
           <div class="w-full">
             <Label class="font-semibold md:font-medium  md:text-lg">Sex</Label>
-            <Select>
+            <Select v-model="form.gender">
               <SelectTrigger class="mt-1">
                 <SelectValue placeholder="Select sex" />
               </SelectTrigger>
@@ -130,31 +130,18 @@
 
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import Checkbox from '../ui/checkbox/Checkbox.vue'
+import usePatientStore from '@/store/patient'
+import { storeToRefs } from 'pinia'
+
+const patientStore = usePatientStore();
 
 
-const form = ref({
-  patient_name: '',
-  phone: '',
-  email: '',
-  gender: '',
-  dob: '',
-  address: '',
-  emergency_contact_phone: '',
-  age: undefined,
-  blood_group: '',
-  is_admitted: false,
-  keep_records: false,
-  allergies: '',
-  chronic_diseases: ''
-
-})
-
+const { form } = storeToRefs(patientStore);
 
 
 </script>
