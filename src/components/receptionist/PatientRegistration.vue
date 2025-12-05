@@ -139,8 +139,6 @@ import usePatientStore from '@/store/patient'
 import { storeToRefs } from 'pinia'
 
 const patientStore = usePatientStore();
-
-
 const { form } = storeToRefs(patientStore);
 
 

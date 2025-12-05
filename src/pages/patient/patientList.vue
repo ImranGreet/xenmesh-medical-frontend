@@ -66,7 +66,7 @@ const doctorStore = useDoctorStore();
 const { patients, searchKeyword } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
-const { retrievePatients,registerNewPatient } = patientStore;
+const { retrievePatients, registerNewPatient, retrievePatient } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 
@@ -91,9 +91,6 @@ onMounted(async () => {
 });
 
 
-let changesFalse = function() {
-  console.log("Changes not saved");
-};
 
 </script>
 
@@ -152,7 +149,7 @@ let changesFalse = function() {
           </SelectContent>
         </Select>
         <Button class="justify-self-end">+ Export</Button>
-        
+
         <Sheet>
           <SheetTrigger as-child>
             <Button variant="outline">
@@ -169,7 +166,7 @@ let changesFalse = function() {
 
             <SheetFooter>
               <Button type="submit" @click="registerNewPatient">
-                Save changes
+                Register Patient
               </Button>
               <SheetClose as-child>
                 <Button variant="outline">
@@ -275,6 +272,37 @@ let changesFalse = function() {
           </TableCell>
           <TableCell class="text-left p-3">
             <div class="flex gap-1">
+
+              <Sheet>
+                <SheetTrigger as-child>
+                  <Button variant="secondary" class="w-5 h-5 bg-green-700 hover:bg-green-800"
+                    @click="retrievePatient(patient.id)">
+                    <svg class="w-2.5 h-2.5 text-white">
+                      <use href="#square-pen-icon" />
+                    </svg>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent class="sm:max-w-md">
+                  <SheetHeader>
+                    <SheetTitle>Patient Registration</SheetTitle>
+                    <SheetDescription>
+                    </SheetDescription>
+                  </SheetHeader>
+                  <PatientRegistration class="overflow-y-auto" />
+
+                  <SheetFooter>
+                    <Button type="submit">
+                      Update Patient
+                    </Button>
+                    <SheetClose as-child>
+                      <Button variant="outline">
+                        Close
+                      </Button>
+                    </SheetClose>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
+
 
               <Sheet>
                 <SheetTrigger>

@@ -77,6 +77,26 @@ const usePatientStore = defineStore('patients', () => {
 		}
 	};
 
+	let retrievePatient = async function (patientId: number) {
+		let response = await axios.get(`/api/view-patient-info/${patientId}`);
+		console.log(response.data.patientInfo);
+		if (response) {
+			let patientData = response.data.patientInfo;
+			form.value.patient_name = patientData.patient_name;
+			form.value.phone = patientData.phone_number;
+			form.value.email = patientData.email;
+			form.value.gender = patientData.sex;
+			form.value.dob = patientData.dob;
+			form.value.address = patientData.address;
+			form.value.emergency_contact_phone = patientData.emergency_contact_phone;
+			form.value.age = patientData.age;
+			form.value.blood_group = patientData.blood_group;
+			form.value.is_admitted = patientData.is_admitted;
+ 	}else{
+			console.log('Error retrieving patient data');
+	}
+}
+
 	return {
 		patients,
 		searchKeyword,
@@ -84,6 +104,7 @@ const usePatientStore = defineStore('patients', () => {
 		/*methods*/
 		retrievePatients,
 		registerNewPatient,
+		retrievePatient,
 	};
 });
 
