@@ -8,6 +8,12 @@ const usePatientStore = defineStore('patients', () => {
 	let patients = ref<Patient[]>([]);
 	let searchKeyword = ref<string>();
 	let metaKeyword = ref<Object>();
+	/*card*/
+	let activePatientCount = ref<number>(0);
+	let deactivePatientCount = ref<number>(0);
+	let todaysPatientCount = ref<number>(0);
+	let thisMonthPatientCount = ref<number>(0);
+
 	/*registration patient*/
 	const form = ref({
 		patient_name: '',
@@ -24,13 +30,12 @@ const usePatientStore = defineStore('patients', () => {
 		allergies: '',
 		chronic_diseases: '',
 	});
-	
 
-	let retrievePatients = async function (perPage: number = 100) {
+	let retrievePatients = async function (perPage: number = 10) {
 		let response = await axios.get(`/api/filter-patient-list`, {
 			params: {
 				per_page: perPage,
-				serach: searchKeyword.value,
+				search: searchKeyword.value,
 			},
 		});
 		patients.value = response.data.patientList;
@@ -49,8 +54,8 @@ const usePatientStore = defineStore('patients', () => {
 			emergency_contact_phone: form.value.emergency_contact_phone,
 			age: form.value.age,
 			blood_group: form.value.blood_group,
-			is_admitted: form.value.is_admitted? true : false,
-			keep_records: form.value.keep_records? true : false,
+			is_admitted: form.value.is_admitted ? true : false,
+			keep_records: form.value.keep_records ? true : false,
 			allergies: form.value.allergies,
 			chronic_diseases: form.value.chronic_diseases,
 			hospital_id: 1,
@@ -89,13 +94,14 @@ const usePatientStore = defineStore('patients', () => {
 			form.value.gender = patientData.sex;
 			form.value.dob = patientData.dob;
 			form.value.address = patientData.address;
-			form.value.emergency_contact_phone = patientData.emergency_contact_phone;
+			form.value.emergency_contact_phone =
+				patientData.emergency_contact_phone;
 			form.value.age = patientData.age;
 			form.value.blood_group = patientData.blood_group;
-			form.value.is_admitted = patientData.is_admitted? true : false;
-			form.value.keep_records = patientData.keep_records? true : false;
+			form.value.is_admitted = patientData.is_admitted ? true : false;
+			form.value.keep_records = patientData.keep_records ? true : false;
 			form.value.allergies = patientData.allergies;
-			form.value.chronic_diseases = patientData.chronic_diseases;			
+			form.value.chronic_diseases = patientData.chronic_diseases;
 		} else {
 			console.log('Error retrieving patient data');
 		}
@@ -113,8 +119,8 @@ const usePatientStore = defineStore('patients', () => {
 				emergency_contact_phone: form.value.emergency_contact_phone,
 				age: form.value.age,
 				blood_group: form.value.blood_group,
-				is_admitted: form.value.is_admitted? true : false,
-				keep_records: form.value.keep_records? true : false,
+				is_admitted: form.value.is_admitted ? true : false,
+				keep_records: form.value.keep_records ? true : false,
 				allergies: form.value.allergies,
 				chronic_diseases: form.value.chronic_diseases,
 			}
@@ -180,7 +186,7 @@ const usePatientStore = defineStore('patients', () => {
 		let response = await axios.put(
 			`/api/update-patient-records-preference/${patientId}`,
 			{
-				keep_records: keepRecords? true : false,
+				keep_records: keepRecords ? true : false,
 			}
 		);
 		if (response) {
@@ -191,10 +197,27 @@ const usePatientStore = defineStore('patients', () => {
 		}
 	};
 
+	let retrievePatientCounts = async function () {
+		let response = await axios.get(`/api/get-active-patients-count`);
+		if (response) {
+			activePatientCount.value = response.data.activePatientsCount;
+			deactivePatientCount.value = response.data.deactivePatientsCount;
+			todaysPatientCount.value = response.data.todaysNewPatients;
+			thisMonthPatientCount.value = response.data.newPatientInMonth;
+		}else {
+			console.log('Error retrieving patient counts');
+		}
+	};
+
 	return {
 		patients,
 		searchKeyword,
 		form,
+		metaKeyword,
+		activePatientCount,
+		deactivePatientCount,
+		todaysPatientCount,
+		thisMonthPatientCount,
 		/*methods*/
 		retrievePatients,
 		registerNewPatient,
@@ -203,6 +226,7 @@ const usePatientStore = defineStore('patients', () => {
 		deletePatient,
 		updatePatientAdmissionStatus,
 		updatePatientKeepRecordsStatus,
+		retrievePatientCounts,
 	};
 });
 

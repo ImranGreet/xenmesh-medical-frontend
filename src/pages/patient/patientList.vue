@@ -63,17 +63,12 @@ import useDoctorStore from "@/store/doctor";
 const patientStore = usePatientStore();
 const doctorStore = useDoctorStore();
 
-const { patients, searchKeyword } = storeToRefs(patientStore);
+const { patients, searchKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
-const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus } = patientStore;
+const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus,retrievePatientCounts } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
-
-let todaysPatient = ref<number>(25);
-let thisMonthPatientCount = ref<number>(250);
-let activePatientCount = ref<number>(1250);
-let deactivePatientCount = ref<number>(125);
 let perPage = ref<number>(10);
 
 
@@ -88,6 +83,7 @@ watch(searchKeyword, () => {
 onMounted(async () => {
   await retrieveDoctors();
   await retrievePatients(perPage.value);
+  await retrievePatientCounts();
 });
 
 
@@ -107,7 +103,7 @@ onMounted(async () => {
 
     <div class="w-full mb-20">
       <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <Card title="Todays Patients" iconId="calendar-icon" :count=todaysPatient />
+        <Card title="Todays Patients" iconId="calendar-icon" :count="todaysPatientCount" />
         <Card title="New This Month" iconId="calendar-icon" :count="thisMonthPatientCount" />
         <Card title="Active Patients" iconId="shield-active-icon" :count="activePatientCount" />
         <Card title="Deactive Patient" iconId="shield-deactive-icon" :count="deactivePatientCount" />
@@ -181,205 +177,204 @@ onMounted(async () => {
     </div>
 
 
-    <Input placeholder="Search by Patient id ,patien name" v-model="searchKeyword" type="text" />
+    <Input placeholder="Search by Patient id ,patien name" v-model="searchKeyword" type="text"
+      @update:model-value="retrievePatients(perPage)" />
 
-    <Table class="caption-top mt-5 ">
-      <TableCaption class="text-xl font-semibold border-b pb-2">A list of Registered Patients.</TableCaption>
-      <TableHeader class="font-bold text-md ">
-        <TableRow>
-          <TableHead class="text-gray-800">
-            Patient id
-          </TableHead>
-          <TableHead class="text-gray-800">
-            Patient Name
-          </TableHead>
-          <TableHead class="text-gray-800">Status</TableHead>
-          <TableHead class="text-gray-800">Phone Number</TableHead>
-          <TableHead class="text-gray-800">Age</TableHead>
-          <TableHead class="text-gray-800">Keep Records</TableHead>
-          <TableHead class="text-gray-800 text-right">Blood Group</TableHead>
-          <TableHead class="text-left text-gray-800">
-            Allergies
-          </TableHead>
-          <TableHead class="text-right text-gray-800">
-            Gender
-          </TableHead>
-          <TableHead class="text-right text-gray-800">
-            Admitted
-          </TableHead>
-          <TableHead class="text-left text-gray-800">
-            Address
-          </TableHead>
-          <TableHead class="text-left text-gray-800">
-            Created By
-          </TableHead>
-          <TableHead class="text-left text-gray-800">
-            Bill
-          </TableHead>
-          <TableHead class="text-left text-gray-800">
-            Action
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow v-for="patient in patients" :key="patient.id">
-          <TableCell class="font-medium p-3">
-            <span class="text-gray-500">{{ patient.generated_patient_id }}</span>
-          </TableCell>
-          <TableCell class="font-medium p-3">
-            {{ patient.patient_name }}
-          </TableCell>
+    <div class="table-container">
+      <Table class="caption-top mt-5 ">
+        <TableCaption class="text-xl font-semibold border-b pb-2">A list of Registered Patients.</TableCaption>
+        <TableHeader class="font-bold text-md ">
+          <TableRow>
+            <TableHead class="text-gray-800">
+              Patient id
+            </TableHead>
+            <TableHead class="text-gray-800">
+              Patient Name
+            </TableHead>
+            <TableHead class="text-gray-800">Status</TableHead>
+            <TableHead class="text-gray-800">Phone Number</TableHead>
+            <TableHead class="text-gray-800">Age</TableHead>
+            <TableHead class="text-gray-800">Keep Records</TableHead>
+            <TableHead class="text-gray-800 text-right">Blood Group</TableHead>
+            <TableHead class="text-left text-gray-800">
+              Allergies
+            </TableHead>
+            <TableHead class="text-right text-gray-800">
+              Gender
+            </TableHead>
+            <TableHead class="text-right text-gray-800">
+              Admitted
+            </TableHead>
+            <TableHead class="text-left text-gray-800">
+              Address
+            </TableHead>
+            <TableHead class="text-left text-gray-800">
+              Created By
+            </TableHead>
+            <TableHead class="text-left text-gray-800">
+              Bill
+            </TableHead>
+            <TableHead class="text-left text-gray-800">
+              Action
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow v-for="patient in patients" :key="patient.id">
+            <TableCell class="font-medium p-3">
+              <span class="text-gray-500">{{ patient.generated_patient_id }}</span>
+            </TableCell>
+            <TableCell class="font-medium p-3">
+              {{ patient.patient_name }}
+            </TableCell>
 
-          <TableCell class="p-3">
-            <Badge variant="default" v-if="patient.is_active === 1" class="bg-blue-500">Active</Badge>
-            <Badge variant="destructive" v-if="patient.is_active === 0">Not Active</Badge>
+            <TableCell class="p-3">
+              <Badge variant="default" v-if="patient.is_active === 1" class="bg-blue-500">Active</Badge>
+              <Badge variant="destructive" v-if="patient.is_active === 0">Not Active</Badge>
 
-          </TableCell>
-          <TableCell class="p-3">{{ patient.phone_number }}</TableCell>
-          <TableCell class="p-3">{{ patient.age }}</TableCell>
-          <TableCell class="p-3">
-            <Badge variant="outline" v-if="patient.keep_records === 1" class="bg-blue-500 text-white">Yes</Badge>
-            <Badge variant="destructive" v-else>No</Badge>
-            <div class="mt-2" v-if="Number(patient.keep_records) === 0">
-              <Select v-model="patient.keep_records"
-                @update:modelValue="updatePatientKeepRecordsStatus(patient.id, Number(patient.keep_records) === 1)">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a status" />
-                </SelectTrigger>
-                <SelectContent class="max-h-72 overflow-y-auto">
-                  <SelectGroup>
-                    <SelectLabel>Records Status</SelectLabel>
-                    <SelectItem value="1">Yes</SelectItem>
-                    <SelectItem value="0">No</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </TableCell>
-          <TableCell class="p-3 text-center">
-            <Badge v-if="patient.blood_group === 'O-'" variant="destructive">{{ patient.blood_group }}</Badge>
-            <span v-else>{{ patient.blood_group }}</span>
-          </TableCell>
-          <TableCell class="text-left p-3">
-            {{ patient.allergies }}
-          </TableCell>
-          <TableCell class="text-right p-3 capitalize">
-            {{ patient.sex }}
-          </TableCell>
-          <TableCell class="text-right p-3">
-            <Badge v-if="patient.is_admitted === 1" variant="default">Yes</Badge>
-            <Badge v-if="patient.is_admitted === 0" variant="destructive">No</Badge>
+            </TableCell>
+            <TableCell class="p-3">{{ patient.phone_number }}</TableCell>
+            <TableCell class="p-3">{{ patient.age }}</TableCell>
+            <TableCell class="p-3">
+              <Badge variant="outline" v-if="patient.keep_records === 1" class="bg-blue-500 text-white">Yes</Badge>
+              <Badge variant="destructive" v-else>No</Badge>
+              <div class="mt-2" v-if="Number(patient.keep_records) === 0">
+                <Select v-model="patient.keep_records"
+                  @update:modelValue="updatePatientKeepRecordsStatus(patient.id, Number(patient.keep_records) === 1)">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a status" />
+                  </SelectTrigger>
+                  <SelectContent class="max-h-72 overflow-y-auto">
+                    <SelectGroup>
+                      <SelectLabel>Records Status</SelectLabel>
+                      <SelectItem value="1">Yes</SelectItem>
+                      <SelectItem value="0">No</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </TableCell>
+            <TableCell class="p-3 text-center">
+              <Badge v-if="patient.blood_group === 'O-'" variant="destructive">{{ patient.blood_group }}</Badge>
+              <span v-else>{{ patient.blood_group }}</span>
+            </TableCell>
+            <TableCell class="text-left p-3">
+              {{ patient.allergies }}
+            </TableCell>
+            <TableCell class="text-right p-3 capitalize">
+              {{ patient.sex }}
+            </TableCell>
+            <TableCell class="text-right p-3">
+              <Badge v-if="patient.is_admitted === 1" variant="default">Yes</Badge>
+              <Badge v-if="patient.is_admitted === 0" variant="destructive">No</Badge>
 
-          </TableCell>
-          <TableCell class="text-left p-3">
-            {{ patient.address }}
-          </TableCell>
-          <TableCell class="text-center p-3">
-            <div class="text-left">
-              <p class="text-md font-semibold"> {{ patient.created_by?.name }}</p>
-              <p> {{ patient.created_by?.role }}</p>
-            </div>
-          </TableCell>
-          <TableCell class="text-left ">
-            <span v-for="bill in patient.bills">
-              {{ Math.floor(bill.total) }}
-            </span>
-          </TableCell>
-          <TableCell class="text-left p-3">
-            <div class="flex gap-1">
+            </TableCell>
+            <TableCell class="text-left p-3">
+              {{ patient.address }}
+            </TableCell>
+            <TableCell class="text-center p-3">
+              <div class="text-left">
+                <p class="text-md font-semibold"> {{ patient.created_by?.name }}</p>
+                <p> {{ patient.created_by?.role }}</p>
+              </div>
+            </TableCell>
+            <TableCell class="text-left ">
+              <span v-for="bill in patient.bills">
+                {{ Math.floor(bill.total) }}
+              </span>
+            </TableCell>
+            <TableCell class="text-left p-3">
+              <div class="flex gap-1">
 
-              <Sheet>
-                <SheetTrigger as-child>
-                  <Button variant="secondary" class="w-5 h-5 bg-green-700 hover:bg-green-800"
-                    @click="retrievePatient(patient.id)">
-                    <svg class="w-2.5 h-2.5 text-white">
-                      <use href="#square-pen-icon" />
-                    </svg>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent class="sm:max-w-md">
-                  <SheetHeader>
-                    <SheetTitle>Update Patient</SheetTitle>
-                    <SheetDescription>
-                    </SheetDescription>
-                  </SheetHeader>
-                  <PatientRegistration class="overflow-y-auto" />
-
-                  <SheetFooter>
-                    <Button type="submit" @click="updatePatientInfo(patient.id)">
-                      Update Patient
+                <Sheet>
+                  <SheetTrigger as-child>
+                    <Button variant="secondary" class="w-5 h-5 bg-green-700 hover:bg-green-800"
+                      @click="retrievePatient(patient.id)">
+                      <svg class="w-2.5 h-2.5 text-white">
+                        <use href="#square-pen-icon" />
+                      </svg>
                     </Button>
-                    <SheetClose as-child>
-                      <Button variant="outline">
-                        Close
+                  </SheetTrigger>
+                  <SheetContent class="sm:max-w-md">
+                    <SheetHeader>
+                      <SheetTitle>Update Patient</SheetTitle>
+                      <SheetDescription>
+                      </SheetDescription>
+                    </SheetHeader>
+                    <PatientRegistration class="overflow-y-auto" />
+
+                    <SheetFooter>
+                      <Button type="submit" @click="updatePatientInfo(patient.id)">
+                        Update Patient
                       </Button>
-                    </SheetClose>
-                  </SheetFooter>
-                </SheetContent>
-              </Sheet>
+                      <SheetClose as-child>
+                        <Button variant="outline">
+                          Close
+                        </Button>
+                      </SheetClose>
+                    </SheetFooter>
+                  </SheetContent>
+                </Sheet>
 
 
-              <Sheet>
-                <SheetTrigger>
-                  <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
-                    <svg class="w-2.5 h-2.5 text-white">
-                      <use href="#plus-icon" />
-                    </svg>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Are you absolutely sure?</SheetTitle>
-                    <SheetDescription>
-                      <AddnewAppoinment />
-                    </SheetDescription>
-                  </SheetHeader>
-                </SheetContent>
-              </Sheet>
+                <Sheet>
+                  <SheetTrigger>
+                    <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
+                      <svg class="w-2.5 h-2.5 text-white">
+                        <use href="#plus-icon" />
+                      </svg>
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent>
+                    <SheetHeader>
+                      <SheetTitle>Are you absolutely sure?</SheetTitle>
+                      <SheetDescription>
+                        <AddnewAppoinment />
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
 
-              <Sheet>
-                <SheetTrigger>
-                  <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
-                    <svg class="w-2.5 h-2.5 text-white">
-                      <use href="#component-icon" />
-                    </svg>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Are you absolutely sure?</SheetTitle>
-                    <SheetDescription>
-                      <AddnewAppoinment />
-                    </SheetDescription>
-                  </SheetHeader>
-                </SheetContent>
-              </Sheet>
-              <Sheet>
-                <SheetTrigger>
-                  <Button variant="outline" class="w-5 h-5">
-                    <svg class="w-2.5 h-2.5">
-                      <use href="#expand-icon" />
-                    </svg>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Are you absolutely sure?</SheetTitle>
-                    <SheetDescription>
-                      <AddnewAppoinment />
-                    </SheetDescription>
-                  </SheetHeader>
-                </SheetContent>
-              </Sheet>
-
-
-
-
-            </div>
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+                <Sheet>
+                  <SheetTrigger>
+                    <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
+                      <svg class="w-2.5 h-2.5 text-white">
+                        <use href="#component-icon" />
+                      </svg>
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent>
+                    <SheetHeader>
+                      <SheetTitle>Are you absolutely sure?</SheetTitle>
+                      <SheetDescription>
+                        <AddnewAppoinment />
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+                <Sheet>
+                  <SheetTrigger>
+                    <Button variant="outline" class="w-5 h-5">
+                      <svg class="w-2.5 h-2.5">
+                        <use href="#expand-icon" />
+                      </svg>
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent>
+                    <SheetHeader>
+                      <SheetTitle>Are you absolutely sure?</SheetTitle>
+                      <SheetDescription>
+                        <AddnewAppoinment />
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+              </div>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </div>
     <div class="w-full flex justify-between items-center">
 
 
@@ -427,3 +422,10 @@ onMounted(async () => {
   </section>
 
 </template>
+
+<style scoped>
+.table-container {
+  max-height: 370px;
+  overflow-y: auto;
+}
+</style>
