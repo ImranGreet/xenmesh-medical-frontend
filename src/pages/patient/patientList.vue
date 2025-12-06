@@ -181,7 +181,7 @@ onMounted(async () => {
     </div>
 
 
-    <Input placeholder="Search by Patient id ,patien name" v-model="searchKeyword" />
+    <Input placeholder="Search by Patient id ,patien name" v-model="searchKeyword" type="text" />
 
     <Table class="caption-top mt-5 ">
       <TableCaption class="text-xl font-semibold border-b pb-2">A list of Registered Patients.</TableCaption>
@@ -240,17 +240,17 @@ onMounted(async () => {
           <TableCell class="p-3">
             <Badge variant="outline" v-if="patient.keep_records === 1" class="bg-blue-500 text-white">Yes</Badge>
             <Badge variant="destructive" v-else>No</Badge>
-            <div class="mt-2" v-if="patient.keep_records===0">
+            <div class="mt-2" v-if="Number(patient.keep_records) === 0">
               <Select v-model="patient.keep_records"
-                @update:modelValue="updatePatientKeepRecordsStatus(patient.id, false)">
+                @update:modelValue="updatePatientKeepRecordsStatus(patient.id, Number(patient.keep_records) === 1)">
                 <SelectTrigger>
                   <SelectValue placeholder="Select a status" />
                 </SelectTrigger>
                 <SelectContent class="max-h-72 overflow-y-auto">
                   <SelectGroup>
                     <SelectLabel>Records Status</SelectLabel>
-                    <SelectItem value="true">Yes</SelectItem>
-                    <SelectItem value="false">No</SelectItem>
+                    <SelectItem value="1">Yes</SelectItem>
+                    <SelectItem value="0">No</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -299,7 +299,7 @@ onMounted(async () => {
                 </SheetTrigger>
                 <SheetContent class="sm:max-w-md">
                   <SheetHeader>
-                    <SheetTitle>Patient Registration</SheetTitle>
+                    <SheetTitle>Update Patient</SheetTitle>
                     <SheetDescription>
                     </SheetDescription>
                   </SheetHeader>

@@ -6,7 +6,7 @@ import { type Patient } from '@/scripts/patient';
 
 const usePatientStore = defineStore('patients', () => {
 	let patients = ref<Patient[]>([]);
-	let searchKeyword = ref<number | string>();
+	let searchKeyword = ref<string>();
 	let metaKeyword = ref<Object>();
 	/*registration patient*/
 	const form = ref({
@@ -49,8 +49,8 @@ const usePatientStore = defineStore('patients', () => {
 			emergency_contact_phone: form.value.emergency_contact_phone,
 			age: form.value.age,
 			blood_group: form.value.blood_group,
-			is_admitted: form.value.is_admitted,
-			keep_records: form.value.keep_records,
+			is_admitted: form.value.is_admitted? true : false,
+			keep_records: form.value.keep_records? true : false,
 			allergies: form.value.allergies,
 			chronic_diseases: form.value.chronic_diseases,
 			hospital_id: 1,
@@ -89,19 +89,20 @@ const usePatientStore = defineStore('patients', () => {
 			form.value.gender = patientData.sex;
 			form.value.dob = patientData.dob;
 			form.value.address = patientData.address;
-			form.value.emergency_contact_phone =
-				patientData.emergency_contact_phone;
+			form.value.emergency_contact_phone = patientData.emergency_contact_phone;
 			form.value.age = patientData.age;
 			form.value.blood_group = patientData.blood_group;
-			form.value.is_admitted = patientData.is_admitted;
+			form.value.is_admitted = patientData.is_admitted? true : false;
+			form.value.keep_records = patientData.keep_records? true : false;
+			form.value.allergies = patientData.allergies;
+			form.value.chronic_diseases = patientData.chronic_diseases;			
 		} else {
 			console.log('Error retrieving patient data');
 		}
 	};
 
 	let updatePatientInfo = async function (patientId: number) {
-		let response = await axios.put(
-			`/api/update-patient-info/${patientId}`,
+		let response = await axios.put(`/api/update-patient-info/${patientId}`,
 			{
 				patient_name: form.value.patient_name,
 				phone_number: form.value.phone,
@@ -112,8 +113,8 @@ const usePatientStore = defineStore('patients', () => {
 				emergency_contact_phone: form.value.emergency_contact_phone,
 				age: form.value.age,
 				blood_group: form.value.blood_group,
-				is_admitted: form.value.is_admitted,
-				keep_records: form.value.keep_records,
+				is_admitted: form.value.is_admitted? true : false,
+				keep_records: form.value.keep_records? true : false,
 				allergies: form.value.allergies,
 				chronic_diseases: form.value.chronic_diseases,
 			}
@@ -179,7 +180,7 @@ const usePatientStore = defineStore('patients', () => {
 		let response = await axios.put(
 			`/api/update-patient-records-preference/${patientId}`,
 			{
-				keep_records: keepRecords,
+				keep_records: keepRecords? true : false,
 			}
 		);
 		if (response) {
