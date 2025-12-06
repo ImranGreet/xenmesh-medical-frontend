@@ -24,6 +24,7 @@ const usePatientStore = defineStore('patients', () => {
 		allergies: '',
 		chronic_diseases: '',
 	});
+	
 
 	let retrievePatients = async function (perPage: number = 100) {
 		let response = await axios.get(`/api/filter-patient-list`, {
@@ -88,14 +89,106 @@ const usePatientStore = defineStore('patients', () => {
 			form.value.gender = patientData.sex;
 			form.value.dob = patientData.dob;
 			form.value.address = patientData.address;
-			form.value.emergency_contact_phone = patientData.emergency_contact_phone;
+			form.value.emergency_contact_phone =
+				patientData.emergency_contact_phone;
 			form.value.age = patientData.age;
 			form.value.blood_group = patientData.blood_group;
 			form.value.is_admitted = patientData.is_admitted;
- 	}else{
+		} else {
 			console.log('Error retrieving patient data');
-	}
-}
+		}
+	};
+
+	let updatePatientInfo = async function (patientId: number) {
+		let response = await axios.put(
+			`/api/update-patient-info/${patientId}`,
+			{
+				patient_name: form.value.patient_name,
+				phone_number: form.value.phone,
+				email: form.value.email,
+				sex: form.value.gender,
+				dob: form.value.dob,
+				address: form.value.address,
+				emergency_contact_phone: form.value.emergency_contact_phone,
+				age: form.value.age,
+				blood_group: form.value.blood_group,
+				is_admitted: form.value.is_admitted,
+				keep_records: form.value.keep_records,
+				allergies: form.value.allergies,
+				chronic_diseases: form.value.chronic_diseases,
+			}
+		);
+
+		console.log(response.data);
+		if (response) {
+			form.value.patient_name = '';
+			form.value.phone = '';
+			form.value.email = '';
+			form.value.gender = '';
+			form.value.dob = '';
+			form.value.address = '';
+			form.value.emergency_contact_phone = '';
+			form.value.age = 0;
+			form.value.blood_group = '';
+			form.value.is_admitted = false;
+			form.value.keep_records = false;
+			form.value.allergies = '';
+			form.value.chronic_diseases = '';
+			console.log('Patient information updated successfully');
+			await retrievePatients();
+		} else {
+			console.log('Error updating patient information');
+		}
+	};
+
+	let deletePatient = async function (patientId: number) {
+		let response = await axios.delete(
+			`/api/delete-patient-info/${patientId}`
+		);
+		console.log(response.data);
+		if (response) {
+			console.log('Patient deleted successfully');
+			await retrievePatients();
+		} else {
+			console.log('Error deleting patient');
+		}
+	};
+
+	let updatePatientAdmissionStatus = async function (
+		patientId: number,
+		isAdmitted: boolean
+	) {
+		let response = await axios.patch(
+			`/api/update-patient-admission-status/${patientId}`,
+			{
+				is_admitted: isAdmitted,
+			}
+		);
+		if (response) {
+			console.log('Patient admission status updated successfully');
+			await retrievePatients();
+		} else {
+			console.log('Error updating patient admission status');
+		}
+	};
+
+	let updatePatientKeepRecordsStatus = async function (
+		patientId: number,
+		keepRecords: boolean
+	) {
+		let response = await axios.put(
+			`/api/update-patient-records-preference/${patientId}`,
+			{
+				keep_records: keepRecords,
+			}
+		);
+		if (response) {
+			console.log('Patient records preference updated successfully');
+			await retrievePatients();
+		} else {
+			console.log('Error updating patient records preference');
+		}
+	};
 
 	return {
 		patients,
@@ -105,6 +198,10 @@ const usePatientStore = defineStore('patients', () => {
 		retrievePatients,
 		registerNewPatient,
 		retrievePatient,
+		updatePatientInfo,
+		deletePatient,
+		updatePatientAdmissionStatus,
+		updatePatientKeepRecordsStatus,
 	};
 });
 

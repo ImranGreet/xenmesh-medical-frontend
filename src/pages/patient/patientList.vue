@@ -66,7 +66,7 @@ const doctorStore = useDoctorStore();
 const { patients, searchKeyword } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
-const { retrievePatients, registerNewPatient, retrievePatient } = patientStore;
+const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 
@@ -240,6 +240,21 @@ onMounted(async () => {
           <TableCell class="p-3">
             <Badge variant="outline" v-if="patient.keep_records === 1" class="bg-blue-500 text-white">Yes</Badge>
             <Badge variant="destructive" v-else>No</Badge>
+            <div class="mt-2" v-if="patient.keep_records===0">
+              <Select v-model="patient.keep_records"
+                @update:modelValue="updatePatientKeepRecordsStatus(patient.id, false)">
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a status" />
+                </SelectTrigger>
+                <SelectContent class="max-h-72 overflow-y-auto">
+                  <SelectGroup>
+                    <SelectLabel>Records Status</SelectLabel>
+                    <SelectItem value="true">Yes</SelectItem>
+                    <SelectItem value="false">No</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
           </TableCell>
           <TableCell class="p-3 text-center">
             <Badge v-if="patient.blood_group === 'O-'" variant="destructive">{{ patient.blood_group }}</Badge>
@@ -291,7 +306,7 @@ onMounted(async () => {
                   <PatientRegistration class="overflow-y-auto" />
 
                   <SheetFooter>
-                    <Button type="submit">
+                    <Button type="submit" @click="updatePatientInfo(patient.id)">
                       Update Patient
                     </Button>
                     <SheetClose as-child>
@@ -356,6 +371,8 @@ onMounted(async () => {
                   </SheetHeader>
                 </SheetContent>
               </Sheet>
+
+
 
 
             </div>
