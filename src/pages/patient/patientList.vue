@@ -37,7 +37,16 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
+} from '@/components/ui/sheet';
+
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 
 import { PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev, PaginationRoot } from 'reka-ui'
@@ -56,14 +65,15 @@ import DoubleLeft from "@/components/Global/DoubleLeft.vue";
 import Left from "@/components/Global/Left.vue";
 import DoubleRight from "@/components/Global/DoubleRight.vue";
 import Right from "@/components/Global/Right.vue";
+import PatientCard from "@/components/receptionist/PatientCard.vue";
 
 const patientStore = usePatientStore();
 const doctorStore = useDoctorStore();
 
-const { patients, searchKeyword, links, metaKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount } = storeToRefs(patientStore);
+const { patients, searchKeyword, links, metaKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount ,patientProfile} = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
-const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus, retrievePatientCounts, getPatientList ,resetForm} = patientStore;
+const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus, retrievePatientCounts, getPatientList, resetForm } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 let perPage = ref<number>(10);
@@ -80,6 +90,10 @@ watch(searchKeyword, () => {
 
 const onPageChange = (page: number) => {
   patientStore.getPatientList(page);
+};
+
+let printPatientCard = () => {
+    window.print();
 };
 
 onMounted(async () => {
@@ -355,23 +369,36 @@ onMounted(async () => {
                     </SheetHeader>
                   </SheetContent>
                 </Sheet>
-                <Sheet>
-                  <SheetTrigger>
-                    <Button variant="outline" class="w-5 h-5">
-                      <svg class="w-2.5 h-2.5">
-                        <use href="#expand-icon" />
-                      </svg>
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent>
-                    <SheetHeader>
-                      <SheetTitle>Are you absolutely sure?</SheetTitle>
-                      <SheetDescription>
-                        <AddnewAppoinment />
-                      </SheetDescription>
-                    </SheetHeader>
-                  </SheetContent>
-                </Sheet>
+
+                <Dialog   size="lg">
+                 
+                    <DialogTrigger as-child>
+                      <Button variant="outline" class="w-5 h-5" @click="retrievePatient(patient.id)">
+                        <svg class="w-2.5 h-2.5">
+                          <use href="#expand-icon" />
+                        </svg>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent class="sm:max-w-4xl px-6">
+
+                    <div class="max-h-[80vh] overflow-y-auto w-full">
+                        <PatientCard :patientInfo="patientProfile" v-if="patientProfile" />
+                    </div>
+                      <DialogFooter>
+                        <DialogClose as-child>
+                          <Button variant="outline">
+                            Cancel
+                          </Button>
+                        </DialogClose>
+                        <Button type="submit" variant="outline" class="bg-[#2a5caa] hover:bg-[#1d4c97] text-white hover:text-white" @click="printPatientCard">
+                         <svg class="w-2.5 h-2.5">
+                          <use href="#print-icon" />
+                        </svg> Print
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  
+                </Dialog>
               </div>
             </TableCell>
           </TableRow>
@@ -417,8 +444,7 @@ onMounted(async () => {
         <PaginationList v-slot="{ items }" class="flex items-center gap-1 text-stone-700 dark:text-white">
 
           <!-- FIRST -->
-          <PaginationFirst
-            class="btn">
+          <PaginationFirst class="btn">
             <DoubleLeft />
           </PaginationFirst>
 
@@ -463,4 +489,5 @@ onMounted(async () => {
   max-height: 370px;
   overflow-y: auto;
 }
+
 </style>

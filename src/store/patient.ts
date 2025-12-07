@@ -15,6 +15,9 @@ const usePatientStore = defineStore('patients', () => {
 	let thisMonthPatientCount = ref<number>(0);
 	let links = ref<any>({});
 
+	/*patient profile*/
+	const patientProfile = ref<Patient | null>(null);
+
 	/*registration patient*/
 	const form = ref({
 		patient_name: '',
@@ -78,7 +81,6 @@ const usePatientStore = defineStore('patients', () => {
 	};
 
 	let registerNewPatient = async function () {
-	
 		let response = await axios.post(`/api/register-patient`, {
 			patient_name: form.value.patient_name,
 			phone_number: form.value.phone,
@@ -100,6 +102,7 @@ const usePatientStore = defineStore('patients', () => {
 		});
 		if (response) {
 			resetForm();
+			await retrievePatientCounts();
 			console.log('Patient registered successfully');
 		} else {
 			console.log('Error registering patient');
@@ -108,7 +111,8 @@ const usePatientStore = defineStore('patients', () => {
 
 	let retrievePatient = async function (patientId: number) {
 		let response = await axios.get(`/api/view-patient-info/${patientId}`);
-		console.log(response.data.patientInfo);
+		console.log(response.data.patientInfo, 'patient data');
+		patientProfile.value = response.data.patientInfo;
 		if (response) {
 			let patientData = response.data.patientInfo;
 			form.value.patient_name = patientData.patient_name;
@@ -231,6 +235,7 @@ const usePatientStore = defineStore('patients', () => {
 		todaysPatientCount,
 		thisMonthPatientCount,
 		links,
+		patientProfile,
 		/*methods*/
 		getPatientList,
 		retrievePatients,

@@ -18,6 +18,7 @@ export interface Patient {
 	is_admitted: 0 | 1;
 	hospital_id: number;
 	added_by_id: number;
+	created_at: string;
 	created_by: Creator | null;
 	bills: Bill[];
 }
