@@ -40,14 +40,7 @@ import {
 } from '@/components/ui/sheet'
 
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev, PaginationRoot } from 'reka-ui'
 
 
 import Badge from "@/components/ui/badge/Badge.vue";
@@ -59,14 +52,18 @@ import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
 /*state*/
 import usePatientStore from "@/store/patient";
 import useDoctorStore from "@/store/doctor";
+import DoubleLeft from "@/components/Global/DoubleLeft.vue";
+import Left from "@/components/Global/Left.vue";
+import DoubleRight from "@/components/Global/DoubleRight.vue";
+import Right from "@/components/Global/Right.vue";
 
 const patientStore = usePatientStore();
 const doctorStore = useDoctorStore();
 
-const { patients, searchKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount } = storeToRefs(patientStore);
+const { patients, searchKeyword, links, metaKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
-const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus,retrievePatientCounts } = patientStore;
+const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus, retrievePatientCounts, getPatientList } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 let perPage = ref<number>(10);
@@ -80,10 +77,15 @@ watch(searchKeyword, () => {
   retrievePatients(perPage.value);
 });
 
+const onPageChange = (page: number) => {
+  patientStore.getPatientList(page);
+};
+
 onMounted(async () => {
   await retrieveDoctors();
   await retrievePatients(perPage.value);
   await retrievePatientCounts();
+  await getPatientList();
 });
 
 
@@ -397,27 +399,59 @@ onMounted(async () => {
             <SelectItem value="30">
               30
             </SelectItem>
+            <SelectItem value="50">
+              50
+            </SelectItem>
+            <SelectItem value="100">
+              100
+            </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
 
 
 
-      <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
-        <PaginationContent v-slot="{ items }">
-          <PaginationPrevious />
+      <PaginationRoot :total="metaKeyword?.total || 0" :items-per-page="metaKeyword?.per_page || 10"
+        :default-page="metaKeyword?.current_page || 1" :sibling-count="1" show-edges @update:page="onPageChange">
+        <PaginationList v-slot="{ items }" class="flex items-center gap-1 text-stone-700 dark:text-white">
 
-          <template v-for="(item, index) in items" :key="index">
-            <PaginationItem v-if="item.type === 'page'" :value="item.value" :is-active="item.value === page">
-              {{ item.value }}
-            </PaginationItem>
+          <!-- FIRST -->
+          <PaginationFirst
+            class="btn">
+            <DoubleLeft />
+          </PaginationFirst>
+
+          <!-- PREV -->
+          <PaginationPrev :disabled="!links.value?.prev"
+            class="w-9 h-9 flex items-center justify-center bg-transparent hover:bg-white dark:hover:bg-stone-700/70 transition mr-4 disabled:opacity-50 rounded-lg">
+            <Left />
+          </PaginationPrev>
+
+          <!-- PAGES -->
+          <template v-for="(page, index) in items" :key="index">
+            <PaginationListItem v-if="page.type === 'page'" :value="page.value"
+              class="w-9 h-9 border dark:border-stone-800 rounded-lg data-[selected]:!bg-white data-[selected]:text-blackA11 shadow-sm hover:bg-white dark:hover:bg-stone-700/70 transition">
+              {{ page.value }}
+            </PaginationListItem>
+
+            <PaginationEllipsis v-else class="w-9 h-9 flex items-center justify-center">…</PaginationEllipsis>
           </template>
 
-          <PaginationEllipsis :index="4" />
+          <!-- NEXT -->
+          <PaginationNext :disabled="!links.value?.next"
+            class="w-9 h-9 flex items-center justify-center bg-transparent hover:bg-white dark:hover:bg-stone-700/70 transition ml-4 disabled:opacity-50 rounded-lg">
+            <Right />
+          </PaginationNext>
 
-          <PaginationNext />
-        </PaginationContent>
-      </Pagination>
+          <!-- LAST -->
+          <PaginationLast
+            class="w-9 h-9 flex items-center justify-center bg-transparent hover:bg-white dark:hover:bg-stone-700/70 transition disabled:opacity-50 rounded-lg">
+            <DoubleRight />
+          </PaginationLast>
+
+        </PaginationList>
+      </PaginationRoot>
+
     </div>
   </section>
 

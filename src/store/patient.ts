@@ -13,8 +13,9 @@ const usePatientStore = defineStore('patients', () => {
 	let deactivePatientCount = ref<number>(0);
 	let todaysPatientCount = ref<number>(0);
 	let thisMonthPatientCount = ref<number>(0);
+	let links = ref<any>({});
 
-  // new girl in the city
+	// new girl in the city
 
 	/*registration patient*/
 	const form = ref({
@@ -43,6 +44,15 @@ const usePatientStore = defineStore('patients', () => {
 		patients.value = response.data.patientList;
 
 		metaKeyword.value = response.data.meta;
+		console.log(response.data, 'data');
+	};
+
+	let getPatientList = async function (page = 1) {
+		const response = await axios.get(`/api/filter-patient-list?page=${page}`);
+
+		patients.value = response.data.patientList;
+		metaKeyword.value = response.data.meta;
+		links.value = response.data.links;
 	};
 
 	let registerNewPatient = async function () {
@@ -110,7 +120,8 @@ const usePatientStore = defineStore('patients', () => {
 	};
 
 	let updatePatientInfo = async function (patientId: number) {
-		let response = await axios.put(`/api/update-patient-info/${patientId}`,
+		let response = await axios.put(
+			`/api/update-patient-info/${patientId}`,
 			{
 				patient_name: form.value.patient_name,
 				phone_number: form.value.phone,
@@ -206,7 +217,7 @@ const usePatientStore = defineStore('patients', () => {
 			deactivePatientCount.value = response.data.deactivePatientsCount;
 			todaysPatientCount.value = response.data.todaysNewPatients;
 			thisMonthPatientCount.value = response.data.newPatientInMonth;
-		}else {
+		} else {
 			console.log('Error retrieving patient counts');
 		}
 	};
@@ -220,7 +231,9 @@ const usePatientStore = defineStore('patients', () => {
 		deactivePatientCount,
 		todaysPatientCount,
 		thisMonthPatientCount,
+		links,
 		/*methods*/
+		getPatientList,
 		retrievePatients,
 		registerNewPatient,
 		retrievePatient,
