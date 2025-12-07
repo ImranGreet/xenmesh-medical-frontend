@@ -14,6 +14,8 @@ const usePatientStore = defineStore('patients', () => {
 	let todaysPatientCount = ref<number>(0);
 	let thisMonthPatientCount = ref<number>(0);
 
+  // new girl in the city
+
 	/*registration patient*/
 	const form = ref({
 		patient_name: '',
