@@ -63,7 +63,7 @@ const doctorStore = useDoctorStore();
 const { patients, searchKeyword, links, metaKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
-const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus, retrievePatientCounts, getPatientList } = patientStore;
+const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus, retrievePatientCounts, getPatientList ,resetForm} = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 let perPage = ref<number>(10);
@@ -71,6 +71,7 @@ let perPage = ref<number>(10);
 
 watch(perPage, (newValue) => {
   retrievePatients(newValue);
+  getPatientList(1, newValue);
 });
 
 watch(searchKeyword, () => {
@@ -150,7 +151,7 @@ onMounted(async () => {
 
         <Sheet>
           <SheetTrigger as-child>
-            <Button variant="outline">
+            <Button variant="outline" @click="resetForm">
               + Add New Patient
             </Button>
           </SheetTrigger>
@@ -380,7 +381,7 @@ onMounted(async () => {
     <div class="w-full flex justify-between items-center">
 
 
-      <Select v-model="perPage" onchange="retrievePatients">
+      <Select v-model="perPage" @update:model-value="retrievePatients(perPage)">
         <SelectTrigger>
           <SelectValue placeholder="Per Page" />
         </SelectTrigger>

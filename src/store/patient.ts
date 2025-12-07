@@ -15,8 +15,6 @@ const usePatientStore = defineStore('patients', () => {
 	let thisMonthPatientCount = ref<number>(0);
 	let links = ref<any>({});
 
-	// new girl in the city
-
 	/*registration patient*/
 	const form = ref({
 		patient_name: '',
@@ -34,6 +32,23 @@ const usePatientStore = defineStore('patients', () => {
 		chronic_diseases: '',
 	});
 
+	let resetForm = () => {
+		form.value.patient_name = '';
+		form.value.phone = '';
+		form.value.email = '';
+		form.value.gender = '';
+		form.value.dob = '';
+		form.value.address = '';
+		form.value.emergency_contact_phone = '';
+		form.value.age = 0;
+		form.value.blood_group = '';
+		form.value.is_admitted = false;
+		form.value.keep_records = false;
+		form.value.allergies = '';
+		form.value.chronic_diseases = '';
+		console.log('Form reset successfully');
+	};
+
 	let retrievePatients = async function (perPage: number = 10) {
 		let response = await axios.get(`/api/filter-patient-list`, {
 			params: {
@@ -47,8 +62,15 @@ const usePatientStore = defineStore('patients', () => {
 		console.log(response.data, 'data');
 	};
 
-	let getPatientList = async function (page = 1) {
-		const response = await axios.get(`/api/filter-patient-list?page=${page}`);
+	let getPatientList = async function (page = 1, perPage: number = 10) {
+		const response = await axios.get(
+			`/api/filter-patient-list?page=${page}`,
+			{
+				params: {
+					per_page: perPage,
+				},
+			}
+		);
 
 		patients.value = response.data.patientList;
 		metaKeyword.value = response.data.meta;
@@ -56,6 +78,7 @@ const usePatientStore = defineStore('patients', () => {
 	};
 
 	let registerNewPatient = async function () {
+	
 		let response = await axios.post(`/api/register-patient`, {
 			patient_name: form.value.patient_name,
 			phone_number: form.value.phone,
@@ -76,19 +99,7 @@ const usePatientStore = defineStore('patients', () => {
 			generated_patient_id: '',
 		});
 		if (response) {
-			form.value.patient_name = '';
-			form.value.phone = '';
-			form.value.email = '';
-			form.value.gender = '';
-			form.value.dob = '';
-			form.value.address = '';
-			form.value.emergency_contact_phone = '';
-			form.value.age = 0;
-			form.value.blood_group = '';
-			form.value.is_admitted = false;
-			form.value.keep_records = false;
-			form.value.allergies = '';
-			form.value.chronic_diseases = '';
+			resetForm();
 			console.log('Patient registered successfully');
 		} else {
 			console.log('Error registering patient');
@@ -141,19 +152,7 @@ const usePatientStore = defineStore('patients', () => {
 
 		console.log(response.data);
 		if (response) {
-			form.value.patient_name = '';
-			form.value.phone = '';
-			form.value.email = '';
-			form.value.gender = '';
-			form.value.dob = '';
-			form.value.address = '';
-			form.value.emergency_contact_phone = '';
-			form.value.age = 0;
-			form.value.blood_group = '';
-			form.value.is_admitted = false;
-			form.value.keep_records = false;
-			form.value.allergies = '';
-			form.value.chronic_diseases = '';
+			resetForm();
 			console.log('Patient information updated successfully');
 			await retrievePatients();
 		} else {
@@ -242,6 +241,7 @@ const usePatientStore = defineStore('patients', () => {
 		updatePatientAdmissionStatus,
 		updatePatientKeepRecordsStatus,
 		retrievePatientCounts,
+		resetForm,
 	};
 });
 
