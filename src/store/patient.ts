@@ -13,6 +13,7 @@ const usePatientStore = defineStore('patients', () => {
 	let deactivePatientCount = ref<number>(0);
 	let todaysPatientCount = ref<number>(0);
 	let thisMonthPatientCount = ref<number>(0);
+	let patientRecordeHolderCount = ref<number>(0);
 	let links = ref<any>({});
 
 	/*patient profile*/
@@ -103,6 +104,7 @@ const usePatientStore = defineStore('patients', () => {
 		if (response) {
 			resetForm();
 			await retrievePatientCounts();
+			await retrievePatients();
 			console.log('Patient registered successfully');
 		} else {
 			console.log('Error registering patient');
@@ -208,18 +210,21 @@ const usePatientStore = defineStore('patients', () => {
 		if (response) {
 			console.log('Patient records preference updated successfully');
 			await retrievePatients();
+			await retrievePatientCounts();
 		} else {
 			console.log('Error updating patient records preference');
 		}
 	};
 
 	let retrievePatientCounts = async function () {
-		let response = await axios.get(`/api/get-active-patients-count`);
+		let response = await axios.get(`/api/get-patients-count`);
 		if (response) {
 			activePatientCount.value = response.data.activePatientsCount;
 			deactivePatientCount.value = response.data.deactivePatientsCount;
 			todaysPatientCount.value = response.data.todaysNewPatients;
 			thisMonthPatientCount.value = response.data.newPatientInMonth;
+			patientRecordeHolderCount.value = response.data.recordsHoldersCount;
+			console.log('Patient counts retrieved successfully');
 		} else {
 			console.log('Error retrieving patient counts');
 		}
@@ -236,6 +241,7 @@ const usePatientStore = defineStore('patients', () => {
 		thisMonthPatientCount,
 		links,
 		patientProfile,
+		patientRecordeHolderCount,
 		/*methods*/
 		getPatientList,
 		retrievePatients,

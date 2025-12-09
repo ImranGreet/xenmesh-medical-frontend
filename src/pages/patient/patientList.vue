@@ -70,7 +70,7 @@ import PatientCard from "@/components/receptionist/PatientCard.vue";
 const patientStore = usePatientStore();
 const doctorStore = useDoctorStore();
 
-const { patients, searchKeyword, links, metaKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount ,patientProfile} = storeToRefs(patientStore);
+const { patients, searchKeyword, links, metaKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount, patientRecordeHolderCount, patientProfile } = storeToRefs(patientStore);
 const { doctors } = storeToRefs(doctorStore);
 
 const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus, retrievePatientCounts, getPatientList, resetForm } = patientStore;
@@ -93,7 +93,7 @@ const onPageChange = (page: number) => {
 };
 
 let printPatientCard = () => {
-    window.print();
+  window.print();
 };
 
 onMounted(async () => {
@@ -124,6 +124,7 @@ onMounted(async () => {
         <Card title="New This Month" iconId="calendar-icon" :count="thisMonthPatientCount" />
         <Card title="Active Patients" iconId="shield-active-icon" :count="activePatientCount" />
         <Card title="Deactive Patient" iconId="shield-deactive-icon" :count="deactivePatientCount" />
+        <Card title="Patients with Records" iconId="records-icon" :count="patientRecordeHolderCount" />
       </div>
     </div>
 
@@ -370,34 +371,35 @@ onMounted(async () => {
                   </SheetContent>
                 </Sheet>
 
-                <Dialog   size="lg">
-                 
-                    <DialogTrigger as-child>
-                      <Button variant="outline" class="w-5 h-5" @click="retrievePatient(patient.id)">
-                        <svg class="w-2.5 h-2.5">
-                          <use href="#expand-icon" />
-                        </svg>
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent class="sm:max-w-4xl px-6">
+                <Dialog size="lg">
+
+                  <DialogTrigger as-child>
+                    <Button variant="outline" class="w-5 h-5" @click="retrievePatient(patient.id)">
+                      <svg class="w-2.5 h-2.5">
+                        <use href="#expand-icon" />
+                      </svg>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent class="sm:max-w-4xl px-6">
 
                     <div class="max-h-[80vh] overflow-y-auto w-full">
-                        <PatientCard :patientInfo="patientProfile" v-if="patientProfile" />
+                      <PatientCard :patientInfo="patientProfile" v-if="patientProfile" />
                     </div>
-                      <DialogFooter>
-                        <DialogClose as-child>
-                          <Button variant="outline">
-                            Cancel
-                          </Button>
-                        </DialogClose>
-                        <Button type="submit" variant="outline" class="bg-[#2a5caa] hover:bg-[#1d4c97] text-white hover:text-white" @click="printPatientCard">
-                         <svg class="w-2.5 h-2.5">
+                    <DialogFooter>
+                      <DialogClose as-child>
+                        <Button variant="outline">
+                          Cancel
+                        </Button>
+                      </DialogClose>
+                      <Button type="submit" variant="outline"
+                        class="bg-[#2a5caa] hover:bg-[#1d4c97] text-white hover:text-white" @click="printPatientCard">
+                        <svg class="w-2.5 h-2.5">
                           <use href="#print-icon" />
                         </svg> Print
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+
                 </Dialog>
               </div>
             </TableCell>
@@ -489,5 +491,4 @@ onMounted(async () => {
   max-height: 370px;
   overflow-y: auto;
 }
-
 </style>
