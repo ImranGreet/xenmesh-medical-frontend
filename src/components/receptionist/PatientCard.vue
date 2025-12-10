@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import { type Patient } from '@/scripts/patient';
 import useHospitalStore from "@/store/hospital";
+import useQRcodeStore from '@/store/module/publicaccess/qrcode';
 import { storeToRefs } from 'pinia';
-import {  onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const hospitalStore = useHospitalStore();
+const patientQRCodeStore = useQRcodeStore();
 
 const { hospitalProfile } = storeToRefs(hospitalStore);
+const { qrCodeData } = storeToRefs(patientQRCodeStore);
 const { retrieveHospitalProfile } = hospitalStore;
+const { generateQRCode } = patientQRCodeStore;
 const isLoading = ref(true);
 
 
@@ -21,15 +25,16 @@ const props = defineProps<{
 onMounted(async () => {
     await retrieveHospitalProfile();
     isLoading.value = false;
+    await generateQRCode(props.patientInfo.generated_patient_id);
 });
 
 </script>
 <template>
-    <div class="card" >
+    <div class="card">
         <!-- Hospital Header -->
         <div class="hospital-header">
             <div class="hospital-name">
-                <div class="bsh">BSH</div>
+                <div class="bsh">{{hospitalProfile?.hospital_name.split(" ").map(word => word[0]).join("").toUpperCase() }}</div>
                 <div class="hospital-title">
                     {{ hospitalProfile?.hospital_name }}<br>
                     <span style="font-size: 16px;">Increase you are special</span>
@@ -43,9 +48,13 @@ onMounted(async () => {
             <!-- Left Side - QR Code -->
             <div class="left-side">
                 <div class="qr-code-box">
-                    <div class="qr-code">
+
+                    <div class="qr-code" v-if="props.patientInfo.generated_patient_id && qrCodeData">
+                        <img :src="qrCodeData" alt="Patient QR Code" width="200">
+                    </div>
+                    <div class="qr-code" v-else>
                         <div class="qr-pattern"></div>
-                        <div class="qr-center">BSH</div>
+                        <div class="qr-center">{{hospitalProfile?.hospital_name.split(" ").map(word => word[0]).join("").toUpperCase() }}</div>
                     </div>
                     <div class="scan-text">SCAN FOR APPOINTMENT</div>
                 </div>
@@ -122,7 +131,8 @@ onMounted(async () => {
 
             <div class="address">
                 <strong>{{ hospitalProfile.hospital_name }} Ltd,</strong><br>
-                {{ hospitalProfile.address }}, {{ hospitalProfile.city }}, {{ hospitalProfile.state }}, {{ hospitalProfile.postal_code }}.<br>
+                {{ hospitalProfile.address }}, {{ hospitalProfile.city }}, {{ hospitalProfile.state }}, {{
+                    hospitalProfile.postal_code }}.<br>
                 Email: {{ hospitalProfile.email }} | Web: {{ hospitalProfile.website }}
             </div>
 
