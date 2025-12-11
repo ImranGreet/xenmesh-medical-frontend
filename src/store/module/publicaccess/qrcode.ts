@@ -14,9 +14,14 @@ const useQRcodeStore = defineStore('publicaccess/qrcode', () => {
             
         }
 	};
+	let createPublicAppoinmnet = async function(){
+		let response = axios.post(`api/create-public-appoinment`);
+		console.log(response,'response public');
+	}
 	return {
 		qrCodeData,
 		generateQRCode,
+		createPublicAppoinmnet
 	};
 });
 
