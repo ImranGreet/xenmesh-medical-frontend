@@ -18,7 +18,7 @@ const useAppoinmnetStore = defineStore('appoinments', () => {
 		const params: Record<string, any> = { per_page: per_page.value };
 
 		if (findByDoctorId.value) params.doctor_id = findByDoctorId.value;
-		if (appoinmentStatus.value) params.status = appoinmentStatus.value;
+		if (appoinmentStatus.value) params.status = appoinmentStatus.value.toLocaleLowerCase();
 		if (findStartDate.value) params.start_date = findStartDate.value;
 		if (findEndDate.value) params.end_date = findEndDate.value;
 		if (findByDate.value) params.date = findByDate.value;
@@ -88,6 +88,7 @@ const useAppoinmnetStore = defineStore('appoinments', () => {
 
 	return {
 		appointments,
+		appoinmentStatus,
 		/*methods*/
 		retrieveAppoinments,
 		retrievePerPage,

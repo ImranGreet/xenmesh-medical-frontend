@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 import {
   Table,
@@ -63,6 +63,7 @@ import {
 import useAppoinmnetStore from "@/store/appoinments";
 import useStatusStore from "@/store/status";
 import useDoctorStore from "@/store/doctor";
+import Tableloader from "@/components/Global/tableloader.vue";
 
 
 
@@ -71,7 +72,7 @@ const statusStore = useStatusStore();
 const doctorStore = useDoctorStore();
 
 const { statuses } = storeToRefs(statusStore);
-const { appointments } = storeToRefs(appoinmentStore);
+const { appointments, appoinmentStatus } = storeToRefs(appoinmentStore);
 const { doctors } = storeToRefs(doctorStore);
 
 
@@ -79,11 +80,24 @@ const { retrieveAppoinments } = appoinmentStore;
 const { retrieveStatuses } = statusStore;
 const { retrieveDoctors } = doctorStore;
 
+appoinmentStatus.value = 'Scheduled';
+
+
+let toggleStatus = async function (status: string) {
+  appoinmentStatus.value = status;
+  tableLoader.value = true;
+  await retrieveAppoinments();
+  tableLoader.value = false;
+}
+
+let tableLoader = ref(true);
 
 onMounted(async () => {
+  tableLoader.value = true;
   await retrieveAppoinments();
   await retrieveStatuses();
   await retrieveDoctors();
+  tableLoader.value = false;
 })
 
 
@@ -206,30 +220,21 @@ onMounted(async () => {
 
 
 
-    <Tabs default-value="account" class="w-full">
+    <Tabs :default-value="appoinmentStatus" class="w-full">
 
       <TabsList class="h-10 p-6">
-        <TabsTrigger value="account" class="p-4">
-          Account
+        <TabsTrigger :value="status" class="p-4" v-for="status in statuses" @click="toggleStatus(status)">
+          {{ status }}
         </TabsTrigger>
-        <TabsTrigger value="password" class="p-4">
-          Password
-        </TabsTrigger>
-        <TabsTrigger value="appo" class="p-4">
-          Appoinment
-        </TabsTrigger>
+
       </TabsList>
 
       <Input class="my-3" />
-      <TabsContent value="account">
-        Make changes to your account here.
-      </TabsContent>
-      <TabsContent value="password">
-        Change your password here.
-      </TabsContent>
+      
 
-      <TabsContent value="appo">
-        <section>
+
+      <TabsContent :value="appoinmentStatus">
+        <section v-if="!tableLoader">
           <div class="h-[600px] scroll-auto overflow-y-auto">
 
             <Table class="caption-top">
@@ -240,6 +245,9 @@ onMounted(async () => {
                   <TableHead>
                     Invoice
                   </TableHead>
+                  <TableHead>
+                    Room Number
+                  </TableHead>
                   <TableHead>Assigned Doctor</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Method</TableHead>
@@ -249,9 +257,12 @@ onMounted(async () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow v-for="appoinment in appointments" :key="appoinment.id">
+                <TableRow v-for="appoinment in appointments" :key="appoinment.id" v-if="!tableLoader">
                   <TableCell class="font-medium p-3">
                     {{ appoinment.status }}
+                  </TableCell>
+                  <TableCell>
+                    {{ appoinment.room_number }}
                   </TableCell>
                   <TableCell class="font-medium p-3">
                     {{ appoinment.added_by.name }}
@@ -266,6 +277,7 @@ onMounted(async () => {
                 </TableRow>
               </TableBody>
             </Table>
+
 
           </div>
 
@@ -318,6 +330,8 @@ onMounted(async () => {
           </div>
 
         </section>
+        <Tableloader v-if="tableLoader" />
+
       </TabsContent>
     </Tabs>
   </section>
