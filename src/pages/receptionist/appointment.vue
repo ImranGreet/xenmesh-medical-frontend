@@ -23,6 +23,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+
+
+
 import { Input } from "@/components/ui/input";
 
 import {
@@ -41,6 +54,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+
 
 
 import Badge from "@/components/ui/badge/Badge.vue";
@@ -64,6 +78,8 @@ import useAppoinmnetStore from "@/store/appoinments";
 import useStatusStore from "@/store/status";
 import useDoctorStore from "@/store/doctor";
 import Tableloader from "@/components/Global/tableloader.vue";
+import appoinmentList from ".";
+// import PatientCard from "@/components/receptionist/PatientCard.vue";
 
 
 
@@ -91,7 +107,6 @@ let toggleStatus = async function (status: string) {
 }
 
 let tableLoader = ref(true);
-
 onMounted(async () => {
   tableLoader.value = true;
   await retrieveAppoinments();
@@ -105,10 +120,6 @@ onMounted(async () => {
 
 <template>
   <section class="w-full">
-
-
-
-
     <div class="w-full flex justify-between items-center py-10">
       <h1 class="text-2xl font-bold">Appointment Management </h1>
 
@@ -230,7 +241,7 @@ onMounted(async () => {
       </TabsList>
 
       <Input class="my-3" />
-      
+
 
 
       <TabsContent :value="appoinmentStatus">
@@ -238,42 +249,180 @@ onMounted(async () => {
           <div class="h-[600px] scroll-auto overflow-y-auto">
 
             <Table class="caption-top">
-              <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your recent invoices.
+              <TableCaption class="text-2xl font-bold text-gray-700 border-b pb-1.5">A list of your {{ appoinmentStatus
+              }} appoinment.
               </TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead>
-                    Invoice
+                    Patient Name
+                  </TableHead>
+                  <TableHead>
+                    Patient Id
+                  </TableHead>
+                  <TableHead>
+                    Appoinment Fees
                   </TableHead>
                   <TableHead>
                     Room Number
                   </TableHead>
                   <TableHead>Assigned Doctor</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead class="text-right">
-                    Amount
+                  <TableHead>Date</TableHead>
+                  <TableHead class="text-left capitalize">
+                    reasons
+                  </TableHead>
+                  <TableHead>
+                    Room Number
+                  </TableHead>
+                  <TableHead>
+                    Action
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow v-for="appoinment in appointments" :key="appoinment.id" v-if="!tableLoader">
                   <TableCell class="font-medium p-3">
-                    {{ appoinment.status }}
+                    {{ appoinment.patient.patient_name }}
+                  </TableCell>
+                  <TableCell class="font-medium p-3">
+                    {{ appoinment.patient.generated_patient_id }}
+                  </TableCell>
+                  <TableCell class="font-medium p-3">
+                    {{ appoinment.appointment_fee }}
                   </TableCell>
                   <TableCell>
                     {{ appoinment.room_number }}
                   </TableCell>
                   <TableCell class="font-medium p-3">
-                    {{ appoinment.added_by.name }}
+                    {{ appoinment.doctor.doctor_details.name }}
+                    <div>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a doctor" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Doctors</SelectLabel>
+                            <SelectItem value="apple" v-for="doctor in doctors">
+                              {{ doctor.name }}
+                            </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </TableCell>
 
                   <TableCell class="p-3">
                     <Badge variant="destructive">{{ appoinment.status }}</Badge>
                   </TableCell>
                   <TableCell class="p-3">{{ appoinment.appointment_date }}</TableCell>
-                  <TableCell class="text-right p-3">
+                  <TableCell class="text-left p-3">
                     {{ appoinment.reason }} </TableCell>
+                  <TableCell>
+                    {{ appoinment.room_number }}
+                  </TableCell>
+                  <TableCell class="text-left p-3">
+                    <div class="flex gap-1">
+
+                      <Sheet>
+                        <SheetTrigger as-child>
+                          <Button variant="secondary" class="w-5 h-5 bg-green-700 hover:bg-green-800">
+                            <svg class="w-2.5 h-2.5 text-white">
+                              <use href="#square-pen-icon" />
+                            </svg>
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent class="sm:max-w-md">
+                          <SheetHeader>
+                            <SheetTitle>Update Patient</SheetTitle>
+                            <SheetDescription>
+                            </SheetDescription>
+                          </SheetHeader>
+                          <PatientRegistration class="overflow-y-auto" />
+
+                          <SheetFooter>
+                            <Button type="submit">
+                              Update Patient
+                            </Button>
+                            <SheetClose as-child>
+                              <Button variant="outline">
+                                Close
+                              </Button>
+                            </SheetClose>
+                          </SheetFooter>
+                        </SheetContent>
+                      </Sheet>
+
+
+                      <Sheet>
+                        <SheetTrigger>
+                          <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
+                            <svg class="w-2.5 h-2.5 text-white">
+                              <use href="#plus-icon" />
+                            </svg>
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent>
+                          <SheetHeader>
+                            <SheetTitle>Are you absolutely sure?</SheetTitle>
+                            <SheetDescription>
+                              <AddnewAppoinment />
+                            </SheetDescription>
+                          </SheetHeader>
+                        </SheetContent>
+                      </Sheet>
+
+                      <Sheet>
+                        <SheetTrigger>
+                          <Button variant="secondary" class="w-5 h-5 bg-purple-700 hover:bg-purple-800">
+                            <svg class="w-2.5 h-2.5 text-white">
+                              <use href="#component-icon" />
+                            </svg>
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent>
+                          <SheetHeader>
+                            <SheetTitle>Are you absolutely sure?</SheetTitle>
+                            <SheetDescription>
+                              <AddnewAppoinment />
+                            </SheetDescription>
+                          </SheetHeader>
+                        </SheetContent>
+                      </Sheet>
+
+                      <Dialog size="lg">
+
+                        <DialogTrigger as-child>
+                          <Button variant="outline" class="w-5 h-5">
+                            <svg class="w-2.5 h-2.5">
+                              <use href="#expand-icon" />
+                            </svg>
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent class="sm:max-w-4xl px-6">
+
+                          <div class="max-h-[80vh] overflow-y-auto w-full">
+                            <!-- <PatientCard /> -->
+                          </div>
+                          <DialogFooter>
+                            <DialogClose as-child>
+                              <Button variant="outline">
+                                Cancel
+                              </Button>
+                            </DialogClose>
+                            <Button type="submit" variant="outline"
+                              class="bg-[#2a5caa] hover:bg-[#1d4c97] text-white hover:text-white">
+                              <svg class="w-2.5 h-2.5">
+                                <use href="#print-icon" />
+                              </svg> Print
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+
+                      </Dialog>
+                    </div>
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
