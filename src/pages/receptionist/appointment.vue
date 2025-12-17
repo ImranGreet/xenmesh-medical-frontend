@@ -335,7 +335,7 @@ onMounted(async () => {
                         </SheetTrigger>
                         <SheetContent class="sm:max-w-md">
                           <SheetHeader>
-                            <SheetTitle>Update Patient</SheetTitle>
+                            <SheetTitle>Update Appoinment Information</SheetTitle>
                             <SheetDescription>
                             </SheetDescription>
                           </SheetHeader>

@@ -345,11 +345,21 @@ onMounted(async () => {
                   </SheetTrigger>
                   <SheetContent>
                     <SheetHeader>
-                      <SheetTitle>Are you absolutely sure?</SheetTitle>
+                      <SheetTitle>Appointment of Patient</SheetTitle>
                       <SheetDescription>
                         <AddnewAppoinment />
                       </SheetDescription>
                     </SheetHeader>
+                    <SheetFooter>
+                      <Button type="submit" @click="updatePatientInfo(patient.id)">
+                        Update Patient
+                      </Button>
+                      <SheetClose as-child>
+                        <Button variant="outline">
+                          Close
+                        </Button>
+                      </SheetClose>
+                    </SheetFooter>
                   </SheetContent>
                 </Sheet>
 
