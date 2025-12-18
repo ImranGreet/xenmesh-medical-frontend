@@ -1,3 +1,4 @@
+import Schedule from '@/pages/doctor/schedule.vue';
 import {
 	createRouter,
 	createWebHistory,
@@ -50,6 +51,10 @@ const routes: RouteRecordRaw[] = [
 		component: () => import('@/pages/global/patientPublicAppoinment.vue'),
 		name: 'public-patient-appointment',
 	},
+	{
+		path:"/test-patient",
+		component:Schedule,
+	}
 ];
 
 const router = createRouter({

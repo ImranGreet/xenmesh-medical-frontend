@@ -133,3 +133,7 @@ button {
          transition disabled:opacity-50;
 	}
 }
+
+input[type='time'] {
+	cursor: pointer;
+}

@@ -52,9 +52,6 @@ import {
 } from "@/components/ui/pagination"
 
 
-
-
-
 const invoices = [
     {
         invoice: "INV001 INV001 INV001 INV001 INV001",

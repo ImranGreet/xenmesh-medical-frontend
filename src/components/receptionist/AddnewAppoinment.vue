@@ -5,10 +5,7 @@
     <form @submit.prevent="registerPatient" class="space-y-6">
 
 
-      <div>
-        <Label for="patient_name" class="font-semibold md:font-medium md:text-lg mt-8">Appointment Fees</Label>
-        <Input id="patient_name" placeholder="fees 500" class="mt-2" required />
-      </div>
+
       <div>
         <Label for="patient_name" class="font-semibold md:font-medium md:text-lg mt-8">Patient Name </Label>
         <Input id="patient_name" placeholder="John Doe" class="mt-2" required />
@@ -40,6 +37,11 @@
         </Select>
       </div>
 
+      <div>
+        <Label for="patient_name" class="font-semibold md:font-medium md:text-lg mt-8">Appointment Fees</Label>
+        <Input id="patient_name" placeholder="fees 500" class="mt-2" required />
+      </div>
+
       <!-- Schedules Section -->
       <div class="bg-gray-50 ">
         <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
@@ -50,7 +52,7 @@
         </h3>
 
         <div class="mt-4 rounded-sm space-y-6 ">
-          
+
           <div class="flex justify-between items-center px-3 py-2  even:bg-stone-200">
             <span class="font-medium text-gray-700">Sunday</span>
 
