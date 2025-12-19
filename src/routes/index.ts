@@ -44,6 +44,12 @@ const routes: RouteRecordRaw[] = [
 				component: () => import('@/pages/inventory/Inventory.vue'),
 				name: 'inventory-management',
 			},
+			/*doctor*/
+			{
+				path: '/doctor-list',
+				component: () => import('@/pages/doctor/doctorlist.vue'),
+				name: 'doctor-list',
+			},
 		],
 	},
 	{
@@ -51,10 +57,6 @@ const routes: RouteRecordRaw[] = [
 		component: () => import('@/pages/global/patientPublicAppoinment.vue'),
 		name: 'public-patient-appointment',
 	},
-	{
-		path:"/test-patient",
-		component:Schedule,
-	}
 ];
 
 const router = createRouter({

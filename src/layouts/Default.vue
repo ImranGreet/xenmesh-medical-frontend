@@ -50,6 +50,9 @@ import {
               exactActiveClass="border-indigo-700" class="capitalize text-lg font-semibold">Appoinment</RouterLink>
           </li>
           <li>
+            <RouterLink :to="{ name: 'doctor-list' }" class="capitalize text-lg font-semibold">Doctor List</RouterLink>
+          </li>
+          <li>
             <RouterLink :to="{ name: 'patient-list' }" class="capitalize text-lg font-semibold">Patient List</RouterLink>
           </li>
           <li>
