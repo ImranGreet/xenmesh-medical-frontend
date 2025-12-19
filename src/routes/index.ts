@@ -50,6 +50,11 @@ const routes: RouteRecordRaw[] = [
 				component: () => import('@/pages/doctor/doctorlist.vue'),
 				name: 'doctor-list',
 			},
+			{
+				path:'/doctor-schedule',
+				component:()=>import('@/pages/doctor/schedule.vue'),
+				name:'doctor-schedule-list'
+			}
 		],
 	},
 	{

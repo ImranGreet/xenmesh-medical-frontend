@@ -54,7 +54,7 @@ const doctorStore = useDoctorStore();
 
 const { retrieveDoctors } = doctorStore;
 
-const {doctors} = storeToRefs(doctorStore);
+const { doctors } = storeToRefs(doctorStore);
 
 onMounted(async () => {
   await retrieveDoctors();
@@ -104,7 +104,6 @@ onMounted(async () => {
               <SheetDescription>
               </SheetDescription>
             </SheetHeader>
-            <PatientRegistration class="overflow-y-auto" />
 
             <SheetFooter>
               <Button type="submit">
@@ -130,79 +129,42 @@ onMounted(async () => {
         <TableCaption class="text-xl font-semibold border-b pb-2">A list of Registered Patients.</TableCaption>
         <TableHeader class="font-bold text-md ">
           <TableRow>
+
             <TableHead class="text-gray-800">
-              Patient id
+              Doctor Name
             </TableHead>
-            <TableHead class="text-gray-800">
-              Patient Name
-            </TableHead>
-            <TableHead class="text-gray-800">Status</TableHead>
-            <TableHead class="text-gray-800">Phone Number</TableHead>
-            <TableHead class="text-gray-800">Age</TableHead>
-            <TableHead class="text-gray-800">Keep Records</TableHead>
-            <TableHead class="text-gray-800 text-right">Blood Group</TableHead>
+            <TableHead class="text-gray-800">Email</TableHead>
+            <TableHead class="text-gray-800">User Name</TableHead>
+            <TableHead class="text-gray-800">Expereinces</TableHead>
+            <TableHead class="text-gray-800">Department</TableHead>
             <TableHead class="text-left text-gray-800">
-              Allergies
+              Appointment Fess
             </TableHead>
-            <TableHead class="text-right text-gray-800">
-              Gender
-            </TableHead>
-            <TableHead class="text-right text-gray-800">
-              Admitted
-            </TableHead>
-            <TableHead class="text-left text-gray-800">
-              Address
-            </TableHead>
-            <TableHead class="text-left text-gray-800">
-              Created By
-            </TableHead>
-            <TableHead class="text-left text-gray-800">
-              Bill
-            </TableHead>
+
             <TableHead class="text-left text-gray-800">
               Action
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow v-for="patient in doctors" :key="patient.id">
+          <TableRow v-for="doctor in doctors" :key="doctor.id">
             <TableCell class="font-medium p-3">
-              <span class="text-gray-500">generated_patient_id</span>
+              <span class="text-gray-500">{{ doctor.name }}</span>
             </TableCell>
             <TableCell class="font-medium p-3">
-              patient_name
+              {{ doctor.email }}
             </TableCell>
 
             <TableCell class="p-3">
-              <Badge variant="default" class="bg-blue-500">Active</Badge>
+              <Badge variant="default" class="bg-blue-500">{{ doctor.username }}</Badge>
 
             </TableCell>
-            <TableCell class="p-3">phone_number</TableCell>
-            <TableCell class="p-3">age </TableCell>
+            <TableCell class="p-3">{{ doctor.profile.experience_years }}</TableCell>
+            <TableCell class="p-3">{{ doctor.profile.specialization }}</TableCell>
             <TableCell class="p-3">
-              <Badge variant="outline" class="bg-blue-500 text-white">Yes</Badge>
+              <Badge variant="outline" class="bg-red-500 text-white">5000</Badge>
             </TableCell>
-            <TableCell class="p-3 text-center">
-              <Badge variant="destructive">blood_group</Badge>
-            </TableCell>
-            <TableCell class="text-left p-3">
-              allergies
-            </TableCell>
-            <TableCell class="text-right p-3 capitalize">
-              patient
-            </TableCell>
-            <TableCell class="text-right p-3">
-              <Badge variant="default">Yes</Badge>
-            </TableCell>
-            <TableCell class="text-left p-3">
-              address
-            </TableCell>
-            <TableCell class="text-center p-3">
-              <div class="text-left">
-                <p class="text-md font-semibold"> name</p>
-                <p> role</p>
-              </div>
-            </TableCell>
+
 
             <TableCell class="text-left p-3">
               <div class="flex gap-1">
@@ -221,7 +183,6 @@ onMounted(async () => {
                       <SheetDescription>
                       </SheetDescription>
                     </SheetHeader>
-                    <PatientRegistration class="overflow-y-auto" />
 
                     <SheetFooter>
                       <Button type="submit">
@@ -249,7 +210,6 @@ onMounted(async () => {
                     <SheetHeader>
                       <SheetTitle>Appointment of Patient</SheetTitle>
                       <SheetDescription>
-                        <AddnewAppoinment />
                       </SheetDescription>
                     </SheetHeader>
                     <SheetFooter>
@@ -277,7 +237,6 @@ onMounted(async () => {
                     <SheetHeader>
                       <SheetTitle>Are you absolutely sure?</SheetTitle>
                       <SheetDescription>
-                        <AddnewAppoinment />
                       </SheetDescription>
                     </SheetHeader>
                   </SheetContent>

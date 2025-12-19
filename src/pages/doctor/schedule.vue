@@ -8,11 +8,30 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Button from "@/components/ui/button/Button.vue";
+
+import { Card, CardContent } from "@/components/ui/card";
+
 </script>
 
 <template>
-  <div class="w-full min-h-screen flex flex-col justify-center items-center">
-    <Accordion type="single" collapsible class="w-2xl mx-auto border px-5 py-8 rounded-lg" default-value="item-1">
+  <div class="w-full min-h-screen flex flex-col justify-center items-center gap-y-5">
+    <Card class="w-2xl rounded-2xl shadow-sm">
+      <CardContent class="p-4 space-y-2 text-sm">
+
+        <p class="text-lg font-semibold text-center">
+          Green Valley Medical Center Ltd.
+        </p>
+
+        <div class="space-y-1">
+          <p><span class="font-semibold">Hotline:</span> 10633</p>
+          <p><span class="font-semibold">Phone Number:</span> 09666700100</p>
+          <p><span class="font-semibold">Customer Care:</span> 01313777600</p>
+          <p><span class="font-semibold">24hrs Emergency:</span> +8801712345678</p>
+        </div>
+
+      </CardContent>
+    </Card>
+    <Accordion type="single" collapsible class="w-2xl mx-auto border px-5 py-8 rounded-2xl" default-value="item-1">
       <AccordionItem value="item-1">
         <AccordionTrigger>Saturday</AccordionTrigger>
         <AccordionContent>
