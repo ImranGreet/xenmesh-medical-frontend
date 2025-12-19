@@ -2,10 +2,11 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-import { type Doctor } from '@/scripts/doctor';
+// import { type Doctor } from '@/scripts/doctor';
 
 const useDoctorStore = defineStore('doctorStore', () => {
-	const doctors = ref<Doctor[]>([]);
+	const doctors = ref();
+	const doctorProfile = ref();
 
 	let retrieveDoctors = async function () {
 		try {
@@ -16,17 +17,19 @@ const useDoctorStore = defineStore('doctorStore', () => {
 		}
 	};
 
-	let retrievePatientByID = async function ($patientID: number) {
+	let retrieveDoctorByID = async function (doctorID: number) {
 		let response = await axios.get(
-			`api/retrieve-docotr-profile/${$patientID}`
+			`/api/retrieve-docotr-profile/${doctorID}`
 		);
-		console.log(response, 'doctor');
+		console.log(response, 'respo');
+		doctorProfile.value = response.data.doctorProfile;
 	};
 
 	return {
 		doctors,
+		doctorProfile,
 		retrieveDoctors,
-		retrievePatientByID,
+		retrieveDoctorByID,
 	};
 });
 

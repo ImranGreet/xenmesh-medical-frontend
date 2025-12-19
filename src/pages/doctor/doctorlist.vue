@@ -49,12 +49,17 @@ import Card from "@/components/shared/Card.vue";
 
 /*state*/
 import useDoctorStore from "@/store/doctor";
+import router from "@/routes";
 
 const doctorStore = useDoctorStore();
 
 const { retrieveDoctors } = doctorStore;
 
 const { doctors } = storeToRefs(doctorStore);
+
+let seeDoctorSchedule = function (doctorID: number) {
+  router.push({ name: 'doctor-schedule-list', params: { id: doctorID } })
+}
 
 onMounted(async () => {
   await retrieveDoctors();
@@ -167,7 +172,7 @@ onMounted(async () => {
 
 
             <TableCell class="text-left p-3">
-              <div class="flex gap-1">
+              <div class="flex items-center gap-1">
 
                 <Sheet>
                   <SheetTrigger as-child>
@@ -270,6 +275,16 @@ onMounted(async () => {
                   </DialogContent>
 
                 </Dialog>
+
+
+                <Button variant="outline" class="w-5 h-5 bg-teal-700 hover:bg-teal-800 text-white hover:text-white"
+                  @click="seeDoctorSchedule(doctor.id)">
+                  <svg class="w-2.5 h-2.5">
+                    <use href="#time-icon" />
+                  </svg>
+                </Button>
+
+
               </div>
             </TableCell>
           </TableRow>

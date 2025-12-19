@@ -8,18 +8,45 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Button from "@/components/ui/button/Button.vue";
-
 import { Card, CardContent } from "@/components/ui/card";
+import useDoctorStore from '@/store/doctor';
+import { onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router'; 
+import { storeToRefs } from 'pinia';
 
+const doctorStore = useDoctorStore();
+const {doctorProfile} = storeToRefs(doctorStore);
+const { retrieveDoctorByID } = doctorStore;
+const route = useRoute(); 
+const doctorId = route.params.id; 
+
+onMounted(async () => {
+  if (doctorId) {
+    await retrieveDoctorByID(Number(doctorId));
+  }
+  console.log(doctorId,'so');
+});
+
+watch(
+  () => route.params.id,
+  async (newId) => {
+    if (newId) {
+      await retrieveDoctorByID(Number(newId));
+    }
+  }
+);
 </script>
 
 <template>
   <div class="w-full min-h-screen flex flex-col justify-center items-center gap-y-5">
+    <div v-if="doctorId" class="text-sm text-gray-500">
+      Loading data for Doctor ID: {{ doctorId }}
+    </div>
+    
     <Card class="w-2xl rounded-2xl shadow-sm">
       <CardContent class="p-4 space-y-2 text-sm">
-
         <p class="text-lg font-semibold text-center">
-          Green Valley Medical Center Ltd.
+          {{ doctorProfile.doctor_details.name }}
         </p>
 
         <div class="space-y-1">
@@ -31,6 +58,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
       </CardContent>
     </Card>
+    
     <Accordion type="single" collapsible class="w-2xl mx-auto border px-5 py-8 rounded-2xl" default-value="item-1">
       <AccordionItem value="item-1">
         <AccordionTrigger>Saturday</AccordionTrigger>
@@ -48,41 +76,16 @@ import { Card, CardContent } from "@/components/ui/card";
             </div>
           </div>
           <div class="float-right py-2.5">
-            <Button class="bg-green-500 hover:bg-green-400"> <svg class="w-2.5 h-2.5 text-white">
+            <Button class="bg-green-500 hover:bg-green-400"> 
+              <svg class="w-2.5 h-2.5 text-white">
                 <use href="#plus-icon" />
-              </svg> Add More </Button>
+              </svg> 
+              Add More 
+            </Button>
           </div>
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Shipping Details</AccordionTrigger>
-        <AccordionContent>
-          <p>
-            We offer worldwide shipping through trusted courier partners.
-            Standard delivery takes 3-5 business days, while express shipping
-            ensures delivery within 1-2 business days.
-          </p>
-          <p class="mt-2">
-            All orders are carefully packaged and fully insured. Track your
-            shipment in real-time through our dedicated tracking portal.
-          </p>
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Return Policy</AccordionTrigger>
-        <AccordionContent>
-          <p>
-            We stand behind our products with a comprehensive 30-day return
-            policy. If you're not completely satisfied, simply return the
-            item in its original condition.
-          </p>
-          <p class="mt-2">
-            Our hassle-free return process includes free return shipping and
-            full refunds processed within 48 hours of receiving the returned
-            item.
-          </p>
-        </AccordionContent>
-      </AccordionItem>
+      
     </Accordion>
   </div>
 </template>

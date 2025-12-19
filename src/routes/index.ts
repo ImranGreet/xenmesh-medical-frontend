@@ -1,4 +1,3 @@
-import Schedule from '@/pages/doctor/schedule.vue';
 import {
 	createRouter,
 	createWebHistory,
@@ -51,7 +50,7 @@ const routes: RouteRecordRaw[] = [
 				name: 'doctor-list',
 			},
 			{
-				path:'/doctor-schedule',
+				path:'/doctor-schedule/:id',
 				component:()=>import('@/pages/doctor/schedule.vue'),
 				name:'doctor-schedule-list'
 			}
