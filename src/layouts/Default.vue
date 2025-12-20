@@ -52,18 +52,26 @@ import {
           <li>
             <RouterLink :to="{ name: 'doctor-list' }" class="capitalize text-lg font-semibold">Doctor List</RouterLink>
           </li>
-          
           <li>
-            <RouterLink :to="{ name: 'patient-list' }" class="capitalize text-lg font-semibold">Patient List</RouterLink>
+            <RouterLink :to="{ name: 'doctor-schedules' }" class="capitalize text-lg font-semibold">Doctor Schedules
+            </RouterLink>
+          </li>
+
+          <li>
+            <RouterLink :to="{ name: 'patient-list' }" class="capitalize text-lg font-semibold">Patient List
+            </RouterLink>
           </li>
           <li>
-            <RouterLink :to="{ name: 'prescription' }" class="capitalize text-lg font-semibold">Prescription</RouterLink>
+            <RouterLink :to="{ name: 'prescription' }" class="capitalize text-lg font-semibold">Prescription
+            </RouterLink>
           </li>
           <li>
-            <RouterLink :to="{ name: 'medical-records' }" class="capitalize text-lg font-semibold">Medical Records</RouterLink>
+            <RouterLink :to="{ name: 'medical-records' }" class="capitalize text-lg font-semibold">Medical Records
+            </RouterLink>
           </li>
           <li>
-            <RouterLink :to="{ name: 'inventory-management' }" class="capitalize text-lg font-semibold">Inventory</RouterLink>
+            <RouterLink :to="{ name: 'inventory-management' }" class="capitalize text-lg font-semibold">Inventory
+            </RouterLink>
           </li>
 
 

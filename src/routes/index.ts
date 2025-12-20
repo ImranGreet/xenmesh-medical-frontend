@@ -53,6 +53,11 @@ const routes: RouteRecordRaw[] = [
 				path:'/doctor-schedule/:id',
 				component:()=>import('@/pages/doctor/schedule.vue'),
 				name:'doctor-schedule-list'
+			},
+			{
+				path:'/doctor-schedules',
+				component:()=>import('@/pages/doctor/doctorscheduleList.vue'),
+				name:'doctor-schedules'
 			}
 		],
 	},

@@ -7,6 +7,7 @@ import { ref } from 'vue';
 const useDoctorStore = defineStore('doctorStore', () => {
 	const doctors = ref();
 	const doctorProfile = ref();
+	const docotrSchedules = ref();
 
 	let retrieveDoctors = async function () {
 		try {
@@ -23,13 +24,24 @@ const useDoctorStore = defineStore('doctorStore', () => {
 		);
 		console.log(response, 'respo');
 		doctorProfile.value = response.data.doctorProfile;
+		retrieveDoctorSchedule();
+	};
+
+	let retrieveDoctorSchedule = async function () {
+		let response = await axios.get(
+			`/api/doctor-schedules/retrieve-doctors-schedules`
+		);
+		docotrSchedules.value = response.data.schedules;
+		console.log(response,'respo');
 	};
 
 	return {
 		doctors,
 		doctorProfile,
+		docotrSchedules,
 		retrieveDoctors,
 		retrieveDoctorByID,
+		retrieveDoctorSchedule
 	};
 });
 

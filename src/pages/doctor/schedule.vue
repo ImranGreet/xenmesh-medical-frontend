@@ -46,13 +46,13 @@ watch(
     <Card class="w-2xl rounded-2xl shadow-sm">
       <CardContent class="p-4 space-y-2 text-sm">
         <p class="text-lg font-semibold text-center">
-          {{ doctorProfile.doctor_details.name }}
+          {{ doctorProfile?.doctor.name }}
         </p>
 
         <div class="space-y-1">
-          <p><span class="font-semibold">Hotline:</span> 10633</p>
-          <p><span class="font-semibold">Phone Number:</span> 09666700100</p>
-          <p><span class="font-semibold">Customer Care:</span> 01313777600</p>
+          <p><span class="font-semibold">E-mail:</span>{{ doctorProfile?.doctor.email }}</p>
+          <p><span class="font-semibold">appointment-Fees:</span> <span v-if="doctorProfile?.appointmentFees">{{ doctorProfile?.appointmentFees }}</span> <span v-else>500</span> </p>
+          <p><span class="font-semibold">Department:</span> {{ doctorProfile?.department.name }} </p>
           <p><span class="font-semibold">24hrs Emergency:</span> +8801712345678</p>
         </div>
 
