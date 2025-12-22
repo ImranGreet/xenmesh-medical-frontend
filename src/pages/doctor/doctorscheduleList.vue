@@ -1,11 +1,5 @@
 <script setup lang="ts">
-/* 
-  FULLY STATIC COMPONENT
-  - No store
-  - No ref
-  - No watch
-  - No function
-*/
+
 import {
     Table,
     TableBody,
@@ -43,20 +37,24 @@ import {
 
 import {
     Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogTrigger,
     DialogClose,
-} from "@/components/ui/dialog";
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog'
 
 import PatientRegistration from "@/components/receptionist/PatientRegistration.vue";
 import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
 import useDoctorStore from "@/store/doctor";
 import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
+import DoctorSchedules from "@/components/receptionist/doctorSchedules.vue";
 
 const doctorStore = useDoctorStore();
-const {docotrSchedules} = storeToRefs(doctorStore);
+const { docotrSchedules } = storeToRefs(doctorStore);
 const { retrieveDoctorSchedule } = doctorStore;
 onMounted(async () => {
     await retrieveDoctorSchedule();
@@ -68,7 +66,7 @@ onMounted(async () => {
 
         <!-- Header -->
         <div class="flex justify-between items-center py-10">
-            <h1 class="text-2xl font-bold">Doctor Management</h1>
+            <h1 class="text-2xl font-bold">Doctor Schedules Management</h1>
         </div>
 
         <!-- Stat Cards -->
@@ -144,6 +142,7 @@ onMounted(async () => {
                         <TableHead>ID</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Schedules</TableHead>
                         <TableHead>Phone</TableHead>
                         <TableHead>Age</TableHead>
                         <TableHead>Blood</TableHead>
@@ -156,9 +155,56 @@ onMounted(async () => {
                 <TableBody>
                     <TableRow v-for="schedule in docotrSchedules" :key="schedule.id">
                         <TableCell>#P-1021</TableCell>
-                        <TableCell>Rahim Uddin</TableCell>
+                        <TableCell>{{ schedule.doctor.name }}</TableCell>
                         <TableCell>
                             <Badge class="bg-blue-500">Active</Badge>
+                        </TableCell>
+                        <TableCell>
+                            <Dialog>
+
+                                <DialogTrigger as-child>
+                                    <Button variant="outline">
+                                        Schedules
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent class="sm:max-w-[650px]">
+                                    <DialogHeader>
+                                        <DialogTitle>See Schedules</DialogTitle>
+                                        <DialogDescription>
+                                            See The schedule details and available time slots.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-6">
+
+                                        <!-- Doctor Info -->
+                                        <div class="border-b pb-4">
+                                            <h2 class="text-2xl font-semibold text-gray-800">
+                                                {{ schedule.doctor.name }}
+                                            </h2>
+                                            <p class="text-gray-600 mt-1">
+                                                {{ schedule.doctor.qualification }}
+                                            </p>
+                                            <p class="text-sm text-gray-500 mt-1">
+                                                {{ schedule.doctor.specialization }}
+                                            </p>
+                                        </div>
+
+                                        <!-- Schedules -->
+                                        <DoctorSchedules :schedules="schedule.schedules"></DoctorSchedules>
+                                    </div>
+
+                                    <DialogFooter>
+                                        <DialogClose as-child>
+                                            <Button variant="outline">
+                                                Cancel
+                                            </Button>
+                                        </DialogClose>
+
+                                    </DialogFooter>
+                                </DialogContent>
+
+                            </Dialog>
+
                         </TableCell>
                         <TableCell>017xxxxxxxx</TableCell>
                         <TableCell>28</TableCell>

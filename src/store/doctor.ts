@@ -31,8 +31,9 @@ const useDoctorStore = defineStore('doctorStore', () => {
 		let response = await axios.get(
 			`/api/doctor-schedules/retrieve-doctors-schedules`
 		);
-		docotrSchedules.value = response.data.schedules;
+		docotrSchedules.value = response.data.data;
 		console.log(response,'respo');
+		console.log(docotrSchedules.value,'schedules');
 	};
 
 	return {
