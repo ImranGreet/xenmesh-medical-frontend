@@ -134,10 +134,15 @@
 
             <symbol id="time-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock8-icon lucide-clock-8">
-
                 <path d="M12 6v6l-4 2" />
                 <circle cx="12" cy="12" r="10" />
+            </symbol>
 
+            <symbol id="back-icon" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-undo2-icon lucide-undo-2">
+                    <path d="M9 14 4 9l5-5" />
+                    <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11" />
             </symbol>
 
         </defs>
