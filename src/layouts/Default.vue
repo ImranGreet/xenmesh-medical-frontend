@@ -73,6 +73,10 @@ import {
             <RouterLink :to="{ name: 'inventory-management' }" class="capitalize text-lg font-semibold">Inventory
             </RouterLink>
           </li>
+          <li>
+            <RouterLink to="#" class="capitalize text-lg font-semibold">Role and Permissions
+            </RouterLink>
+          </li>
 
 
         </ul>

@@ -58,6 +58,11 @@ const routes: RouteRecordRaw[] = [
 				path:'/doctor-schedules',
 				component:()=>import('@/pages/doctor/doctorscheduleList.vue'),
 				name:'doctor-schedules'
+			},
+			{
+				path:'/role-permissions',
+				component:()=>import('@/pages/auth/RoleAndPermissions.vue'),
+				name:'role-permissions'
 			}
 		],
 	},
