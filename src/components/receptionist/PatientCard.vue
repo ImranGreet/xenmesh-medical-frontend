@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { type Patient } from '@/scripts/patient';
+import { abbrevationCreator } from '@/store/helper';
 import useHospitalStore from "@/store/hospital";
 import useQRcodeStore from '@/store/module/publicaccess/qrcode';
 import { storeToRefs } from 'pinia';
@@ -34,7 +35,7 @@ onMounted(async () => {
         <!-- Hospital Header -->
         <div class="hospital-header">
             <div class="hospital-name">
-                <div class="bsh">{{hospitalProfile?.hospital_name.split(" ").map(word => word[0]).join("").toUpperCase() }}</div>
+                <div class="bsh">{{abbrevationCreator(hospitalProfile?.hospital_name || '') }}</div>
                 <div class="hospital-title">
                     {{ hospitalProfile?.hospital_name }}<br>
                     <span style="font-size: 16px;">Increase you are special</span>

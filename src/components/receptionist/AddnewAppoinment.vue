@@ -118,7 +118,6 @@ import {
   RadioGroupItem,
 } from '@/components/ui/radio-group';
 
-import { type Appointment } from '@/scripts/appoinment';
 
 let props = defineProps<{
   // patinetInfo: Appointment,
