@@ -38,6 +38,9 @@ import {
   DialogContent,
   DialogFooter,
   DialogTrigger,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog'
 
 
@@ -50,6 +53,7 @@ import Card from "@/components/shared/Card.vue";
 /*state*/
 import useDoctorStore from "@/store/doctor";
 import router from "@/routes";
+import DoctorSchedules from "@/components/receptionist/doctorSchedules.vue";
 
 const doctorStore = useDoctorStore();
 
@@ -145,6 +149,9 @@ onMounted(async () => {
             <TableHead class="text-left text-gray-800">
               Appointment Fess
             </TableHead>
+            <TableHead class="text-left text-gray-800">
+              Schedules
+            </TableHead>
 
             <TableHead class="text-left text-gray-800">
               Action
@@ -164,12 +171,58 @@ onMounted(async () => {
               <Badge variant="default" class="bg-blue-500">{{ doctor.username }}</Badge>
 
             </TableCell>
-            <TableCell class="p-3">{{ doctor.profile.experience_years }}</TableCell>
-            <TableCell class="p-3">{{ doctor.profile.specialization }}</TableCell>
+            <TableCell class="p-3">{{ doctor.profile?.experience_years }}</TableCell>
+            <TableCell class="p-3">{{ doctor.profile?.specialization }}</TableCell>
             <TableCell class="p-3">
               <Badge variant="outline" class="bg-red-500 text-white">5000</Badge>
             </TableCell>
+            <TableCell>
+              <Dialog>
 
+                <DialogTrigger as-child>
+                  <Button variant="outline">
+                    Schedules
+                  </Button>
+                </DialogTrigger>
+                <DialogContent class="sm:max-w-[650px]">
+                  <DialogHeader>
+                    <DialogTitle>See Schedules</DialogTitle>
+                    <DialogDescription>
+                      See The schedule details and available time slots.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-6">
+
+                    <!-- Doctor Info -->
+                    <div class="border-b pb-4">
+                      <h2 class="text-2xl font-semibold text-gray-800">
+                        <span class="text-gray-500">{{ doctor.name }}</span>
+                      </h2>
+                      <p class="text-gray-600 mt-1">
+                        {{ doctor.profile?.department }}
+                      </p>
+                      <p class="text-sm text-gray-500 mt-1">
+                        {{ doctor.profile?.specialization }}
+                      </p>
+                    </div>
+
+                    <!-- Schedules -->
+                    <DoctorSchedules :schedules="doctor.profile?.schedules"></DoctorSchedules>
+
+                  </div>
+
+                  <DialogFooter>
+                    <DialogClose as-child>
+                      <Button variant="outline">
+                        Cancel
+                      </Button>
+                    </DialogClose>
+
+                  </DialogFooter>
+                </DialogContent>
+
+              </Dialog>
+            </TableCell>
 
             <TableCell class="text-left p-3">
               <div class="flex items-center gap-1">

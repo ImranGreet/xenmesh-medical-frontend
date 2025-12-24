@@ -13,6 +13,7 @@ const useDoctorStore = defineStore('doctorStore', () => {
 		try {
 			let response = await axios.get('/api/retrieve-doctors');
 			doctors.value = response.data.data ?? response.data;
+			console.log(response, 'respo');
 		} catch (error) {
 			console.log(error);
 		}

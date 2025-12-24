@@ -9,19 +9,16 @@ let abbrevationCreator = (fullText: string): string => {
 };
 
 let formatTime24To12 = (time: string): string => {
+	console.log('Formatting time:', time);
 	if (!time) return '';
-	const value: string = time.replace(':', '.');
-	let [hoursStr, minutesStr = '00'] = value.split('.');
 
-	const hours: number = Number(hoursStr);
-	const minutes: number = Number(minutesStr);
+	const [hourStr, minute] = time.split(':');
+	let hour = Number(hourStr);
 
-	if (Number.isNaN(hours) || Number.isNaN(minutes)) return '';
+	const period = hour >= 12 ? 'PM' : 'AM';
+	hour = hour % 12 || 12;
 
-	const period: 'AM' | 'PM' = hours >= 12 ? 'PM' : 'AM';
-	const formattedHours: number = hours % 12 || 12;
-
-	return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+	return `${hour}:${minute} ${period}`;
 };
 let formatDate = (dateString: string): string => {
 	let date = new Date(dateString);
@@ -53,9 +50,9 @@ let postRequist = async (url: string, data: Object = {}) => {
 	}
 };
 
-let deleteRequist = async (url: string,id:number) => {
+let deleteRequist = async (url: string, id: number) => {
 	try {
-		let response = await axios.delete(url+'/'+id);
+		let response = await axios.delete(url + '/' + id);
 		return response.data;
 	} catch (error) {
 		console.error('Error deleting data:', error);
@@ -63,4 +60,11 @@ let deleteRequist = async (url: string,id:number) => {
 	}
 };
 
-export { abbrevationCreator, formatDate, formatTime24To12, getRequist, postRequist, deleteRequist };
+export {
+	abbrevationCreator,
+	formatDate,
+	formatTime24To12,
+	getRequist,
+	postRequist,
+	deleteRequist,
+};
