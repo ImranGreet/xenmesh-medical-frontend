@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 import { type Patient } from '@/scripts/patient';
+import { getRequist } from './helper';
 
 const usePatientStore = defineStore('patients', () => {
 	let patients = ref<Patient[]>([]);
@@ -54,16 +55,14 @@ const usePatientStore = defineStore('patients', () => {
 	};
 
 	let retrievePatients = async function (perPage: number = 10) {
-		let response = await axios.get(`/api/filter-patient-list`, {
-			params: {
-				per_page: perPage,
-				search: searchKeyword.value,
-			},
+		getRequist(`/api/filter-patient-list`, {
+			per_page: perPage,
+			search: searchKeyword.value,
+		}).then((data) => {
+			console.log(data, 'data from helper');
+			patients.value = data.patientList;
+			metaKeyword.value = data.meta;
 		});
-		patients.value = response.data.patientList;
-
-		metaKeyword.value = response.data.meta;
-		console.log(response.data, 'data');
 	};
 
 	let getPatientList = async function (page = 1, perPage: number = 10) {
