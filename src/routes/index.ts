@@ -50,20 +50,15 @@ const routes: RouteRecordRaw[] = [
 				name: 'doctor-list',
 			},
 			{
-				path:'/doctor-schedule/:id',
-				component:()=>import('@/pages/doctor/schedule.vue'),
-				name:'doctor-schedule-list'
+				path: '/doctor-schedule/:id',
+				component: () => import('@/pages/doctor/schedule.vue'),
+				name: 'doctor-schedule-list',
 			},
 			{
-				path:'/doctor-schedules',
-				component:()=>import('@/pages/doctor/doctorscheduleList.vue'),
-				name:'doctor-schedules'
+				path: '/role-permissions',
+				component: () => import('@/pages/auth/RoleAndPermissions.vue'),
+				name: 'role-permissions',
 			},
-			{
-				path:'/role-permissions',
-				component:()=>import('@/pages/auth/RoleAndPermissions.vue'),
-				name:'role-permissions'
-			}
 		],
 	},
 	{

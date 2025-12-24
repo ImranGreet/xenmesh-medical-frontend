@@ -174,7 +174,7 @@ onMounted(async () => {
             <TableCell class="p-3">{{ doctor.profile?.experience_years }}</TableCell>
             <TableCell class="p-3">{{ doctor.profile?.specialization }}</TableCell>
             <TableCell class="p-3">
-              <Badge variant="outline" class="bg-red-500 text-white">5000</Badge>
+              {{  Number(doctor.profile?.appointment_fees) }}
             </TableCell>
             <TableCell>
               <Dialog>

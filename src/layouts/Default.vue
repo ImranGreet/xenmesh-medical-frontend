@@ -52,10 +52,7 @@ import {
           <li>
             <RouterLink :to="{ name: 'doctor-list' }" class="capitalize text-lg font-semibold">Doctor List</RouterLink>
           </li>
-          <li>
-            <RouterLink :to="{ name: 'doctor-schedules' }" class="capitalize text-lg font-semibold">Doctor Schedules
-            </RouterLink>
-          </li>
+
 
           <li>
             <RouterLink :to="{ name: 'patient-list' }" class="capitalize text-lg font-semibold">Patient List
@@ -74,7 +71,7 @@ import {
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="capitalize text-lg font-semibold">Role and Permissions
+            <RouterLink :to="{ name: 'role-permissions' }" class="capitalize text-lg font-semibold">Role and Permissions
             </RouterLink>
           </li>
 
