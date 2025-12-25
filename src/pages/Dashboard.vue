@@ -2,12 +2,6 @@
 import Card from '@/components/shared/Card.vue';
 import Button from '@/components/ui/button/Button.vue';
 
-
-
-
-
-
-
 import {
     Table,
     TableBody,
@@ -17,8 +11,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
-
 
 const invoices = [
     {
