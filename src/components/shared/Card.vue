@@ -1,7 +1,7 @@
 <template>
     <div class="w-full rounded-lg border bg-card text-card-foreground shadow">
         <div class="gap-y-1.5 p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 class="tracking-tight text-lg font-medium">{{ props.title }}</h3><svg class=" w-5 h-5">
+            <h3 class="tracking-tight text-lg font-medium capitalize">{{ props.title }}</h3><svg class=" w-5 h-5">
                <use :href="`#${props.iconId}`" />
             </svg>
         </div>

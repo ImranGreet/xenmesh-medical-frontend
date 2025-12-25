@@ -180,7 +180,7 @@ onMounted(async () => {
               <Dialog>
 
                 <DialogTrigger as-child>
-                  <Button variant="outline">
+                  <Button variant="outline" class="bg-gray-700 text-white hover:bg-gray-800/80 hover:text-white">
                     Schedules
                   </Button>
                 </DialogTrigger>

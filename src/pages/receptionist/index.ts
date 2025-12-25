@@ -5,4 +5,9 @@ export default class appoinmentList {
 	setTableLoader(value: boolean): void {
 		this.tableLoader.value = value;
 	}
+
+	getAppoinmentCount():void{
+		
+	}
+
 }

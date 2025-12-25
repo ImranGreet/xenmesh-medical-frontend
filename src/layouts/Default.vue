@@ -71,6 +71,14 @@ import {
             </RouterLink>
           </li>
           <li>
+            <RouterLink to="#" class="capitalize text-lg font-semibold">Billing
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink to="#" class="capitalize text-lg font-semibold">Reports
+            </RouterLink>
+          </li>
+          <li>
             <RouterLink :to="{ name: 'role-permissions' }" class="capitalize text-lg font-semibold">Role and Permissions
             </RouterLink>
           </li>

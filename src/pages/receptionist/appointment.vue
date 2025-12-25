@@ -21,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog"
 
 import {
@@ -78,8 +79,6 @@ import useAppoinmnetStore from "@/store/appoinments";
 import useStatusStore from "@/store/status";
 import useDoctorStore from "@/store/doctor";
 import Tableloader from "@/components/Global/tableloader.vue";
-import appoinmentList from ".";
-// import PatientCard from "@/components/receptionist/PatientCard.vue";
 
 
 
@@ -88,11 +87,11 @@ const statusStore = useStatusStore();
 const doctorStore = useDoctorStore();
 
 const { statuses } = storeToRefs(statusStore);
-const { appointments, appoinmentStatus } = storeToRefs(appoinmentStore);
+const { appointments, appoinmentStatus, appointmentsCount,todaysPatientsCount } = storeToRefs(appoinmentStore);
 const { doctors } = storeToRefs(doctorStore);
 
 
-const { retrieveAppoinments } = appoinmentStore;
+const { retrieveAppoinments, retrieveAppoinmentsCount ,retrieveTodaysAppoinmentsCount} = appoinmentStore;
 const { retrieveStatuses } = statusStore;
 const { retrieveDoctors } = doctorStore;
 
@@ -107,11 +106,14 @@ let toggleStatus = async function (status: string) {
 }
 
 let tableLoader = ref(true);
+
 onMounted(async () => {
   tableLoader.value = true;
   await retrieveAppoinments();
   await retrieveStatuses();
   await retrieveDoctors();
+  await retrieveAppoinmentsCount();
+  await retrieveTodaysAppoinmentsCount();
   tableLoader.value = false;
 })
 
@@ -148,10 +150,13 @@ onMounted(async () => {
 
     <div class="w-full mb-20">
       <div class="w-full flex flex-wrap lg:flex-nowrap gap-3.5">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Card :title="'Total'" :count="appointmentsCount?.total" />
+        <Card :title="'todays patient'" :count="todaysPatientsCount" />
+        <Card :title="'new this months'" />
+        <Card :title="'Scheduled'" :count="appointmentsCount?.scheduled" />
+        <Card :title="'Pending'" :count="appointmentsCount?.pending" />
+        <Card :title="'Completed'" :count="appointmentsCount?.completed" />
+        <Card :title="'Cancelled'" :count="appointmentsCount?.cancelled" />
       </div>
     </div>
 
@@ -339,7 +344,6 @@ onMounted(async () => {
                             <SheetDescription>
                             </SheetDescription>
                           </SheetHeader>
-                          <PatientRegistration class="overflow-y-auto" />
 
                           <SheetFooter>
                             <Button type="submit">
