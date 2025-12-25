@@ -70,10 +70,14 @@ import PatientCard from "@/components/receptionist/PatientCard.vue";
 const patientStore = usePatientStore();
 const doctorStore = useDoctorStore();
 
-const { patients, searchKeyword, links, metaKeyword, activePatientCount, deactivePatientCount, todaysPatientCount, thisMonthPatientCount, patientRecordeHolderCount, patientProfile } = storeToRefs(patientStore);
-const { doctors } = storeToRefs(doctorStore);
+const { patients, searchKeyword, links, metaKeyword,
+  activePatientCount, deactivePatientCount,
+  todaysPatientCount, thisMonthPatientCount,
+  patientRecordeHolderCount, patientProfile } = storeToRefs(patientStore);
 
-const { retrievePatients, registerNewPatient, retrievePatient, updatePatientInfo, updatePatientKeepRecordsStatus, retrievePatientCounts, getPatientList, resetForm } = patientStore;
+const { retrievePatients, registerNewPatient, retrievePatient,
+  updatePatientInfo, updatePatientKeepRecordsStatus,
+  retrievePatientCounts, getPatientList, resetForm } = patientStore;
 const { retrieveDoctors } = doctorStore;
 
 let perPage = ref<number>(10);
@@ -110,13 +114,9 @@ onMounted(async () => {
 <template>
   <section class="w-full">
 
-
     <div class="w-full flex justify-between items-center py-10">
       <h1 class="text-2xl font-bold">Patient Management</h1>
-
-
     </div>
-
 
     <div class="w-full mb-20">
       <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -133,19 +133,6 @@ onMounted(async () => {
       <h1 class="text-2xl font-semibold">Find Patients</h1>
       <div class="flex flex-wrap gap-1.5">
 
-
-        <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a doctor" />
-          </SelectTrigger>
-          <SelectContent class="max-h-72 overflow-y-auto">
-            <SelectGroup>
-              <SelectLabel>Doctors</SelectLabel>
-              <SelectItem value="{{ doctor.name}}" v-for="doctor in doctors">{{ doctor.name }}</SelectItem>
-
-            </SelectGroup>
-          </SelectContent>
-        </Select>
         <Select>
           <SelectTrigger>
             <SelectValue placeholder="Select a status" />

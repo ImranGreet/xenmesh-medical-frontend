@@ -2,7 +2,7 @@ import type { AppointmentPayload } from '@/scripts/appoinment';
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { getRequist } from './helper';
+import { getRequest } from './helper';
 
 const useAppoinmnetStore = defineStore('appoinments', () => {
 	let appointments = ref<any[]>([]);
@@ -89,7 +89,7 @@ const useAppoinmnetStore = defineStore('appoinments', () => {
 
 	let retrieveAppoinmentsCount = async function () {
 		try {
-			const response = await getRequist('/api/appointments-count');
+			const response = await getRequest('/api/appointments-count');
 			console.log('Appointments count:', response);
 			appointmentsCount.value = response.appointmentscount;
 		} catch (error) {
@@ -99,7 +99,7 @@ const useAppoinmnetStore = defineStore('appoinments', () => {
 
 	let retrieveTodaysAppoinmentsCount = async function () {
 		try {
-			const response = await getRequist('/api/appointments/today');
+			const response = await getRequest('/api/appointments/today');
 			console.log('Today Appointments:', response);
 			todaysPatientsCount.value = response.todayPatientCount;
 		} catch (error) {

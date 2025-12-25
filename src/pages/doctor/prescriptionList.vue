@@ -18,11 +18,11 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 
 
 import {
@@ -33,7 +33,7 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui/select';
 
 
 import Badge from "@/components/ui/badge/Badge.vue";
@@ -42,14 +42,16 @@ import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
 import Card from "@/components/shared/Card.vue";
 
 
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination"
+import { onMounted } from "vue";
+import usePrescriptionStore from "@/store/prescription";
+import { storeToRefs } from "pinia";
+const prescriptionStore = usePrescriptionStore();
+const { prescriptions } = storeToRefs(prescriptionStore);
+const { retrievePrescriptions } = prescriptionStore
+
+onMounted(async () => {
+    await retrievePrescriptions();
+});
 
 
 const invoices = [
@@ -286,61 +288,43 @@ const invoices = [
 
 
 
-        <Input placeholder="Patient Name" />
+        <Input placeholder="Patient Name,Patient Id" />
 
         <Table class="caption-top mt-10">
             <TableCaption>A list of your recent prescription.</TableCaption>
             <TableHeader>
                 <TableRow>
-                    <TableHead class="w-[100px]">
-                        Invoice
+                    <TableHead >
+                        Patient Id
                     </TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Method</TableHead>
-                    <TableHead class="text-right">
-                        Amount
+                    <TableHead>Patient Name</TableHead>
+                    <TableHead class="capitalize">diagnosis</TableHead>
+                    <TableHead class="text-left">
+                        Notes
                     </TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow v-for="invoice in invoices" :key="invoice.invoice">
+                <TableRow v-for="prescription in prescriptions" :key="prescription.id">
                     <TableCell class="font-medium p-3">
-                        {{ invoice.invoice }}
+                        {{ prescription.patient.generated_patient_id }}
                     </TableCell>
 
                     <TableCell class="p-3">
-                        <Badge variant="destructive" v-if="invoice.paymentStatus === `Unpaid`">{{ invoice.paymentStatus
-                            }}
-                        </Badge>
-                        <Badge variant="outline" v-if="invoice.paymentStatus === `Paid`">{{ invoice.paymentStatus }}
-                        </Badge>
-                        <Badge variant="secondary" v-if="invoice.paymentStatus === `Pending`">{{ invoice.paymentStatus
-                            }}
-                        </Badge>
+                        {{ prescription.patient.patient_name }}
                     </TableCell>
-                    <TableCell class="p-3">{{ invoice.paymentMethod }}</TableCell>
-                    <TableCell class="text-right p-3">
-                        {{ invoice.totalAmount }}
+                    <TableCell class="p-3">
+                        {{ prescription.diagnosis }}
                     </TableCell>
+                    <TableCell class="p-3">
+                        {{ prescription.notes }}
+                    </TableCell>
+
                 </TableRow>
             </TableBody>
         </Table>
 
-        <Pagination v-slot="{ page }" :items-per-page="10" :total="30" :default-page="2" class="my-2">
-            <PaginationContent v-slot="{ items }">
-              <PaginationPrevious />
 
-              <template v-for="(item, index) in items" :key="index">
-                <PaginationItem v-if="item.type === 'page'" :value="item.value" :is-active="item.value === page">
-                  {{ item.value }}
-                </PaginationItem>
-              </template>
-
-              <PaginationEllipsis :index="4" />
-
-              <PaginationNext />
-            </PaginationContent>
-          </Pagination>
     </section>
 
 

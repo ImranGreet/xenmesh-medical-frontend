@@ -31,7 +31,7 @@ let formatDate = (dateString: string): string => {
 	return date.toLocaleDateString(undefined, options);
 };
 
-let getRequist = async (url: string, params: Object = {}) => {
+let getRequest = async (url: string, params: Object = {}) => {
 	try {
 		let response = await axios.get(url, { params });
 		return response.data;
@@ -40,15 +40,7 @@ let getRequist = async (url: string, params: Object = {}) => {
 		throw error;
 	}
 };
-let postRequist = async (url: string, data: Object = {}) => {
-	try {
-		let response = await axios.post(url, data);
-		return response.data;
-	} catch (error) {
-		console.error('Error posting data:', error);
-		throw error;
-	}
-};
+
 
 let deleteRequist = async (url: string, id: number) => {
 	try {
@@ -64,7 +56,6 @@ export {
 	abbrevationCreator,
 	formatDate,
 	formatTime24To12,
-	getRequist,
-	postRequist,
+	getRequest,
 	deleteRequist,
 };

@@ -16,13 +16,10 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
   DialogClose,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 import {
   Sheet,
@@ -56,8 +53,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-
-
 import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
 import AddnewAppoinment from "@/components/receptionist/AddnewAppoinment.vue";
@@ -87,11 +82,11 @@ const statusStore = useStatusStore();
 const doctorStore = useDoctorStore();
 
 const { statuses } = storeToRefs(statusStore);
-const { appointments, appoinmentStatus, appointmentsCount,todaysPatientsCount } = storeToRefs(appoinmentStore);
+const { appointments, appoinmentStatus, appointmentsCount, todaysPatientsCount } = storeToRefs(appoinmentStore);
 const { doctors } = storeToRefs(doctorStore);
 
 
-const { retrieveAppoinments, retrieveAppoinmentsCount ,retrieveTodaysAppoinmentsCount} = appoinmentStore;
+const { retrieveAppoinments, retrieveAppoinmentsCount, retrieveTodaysAppoinmentsCount } = appoinmentStore;
 const { retrieveStatuses } = statusStore;
 const { retrieveDoctors } = doctorStore;
 
@@ -125,26 +120,6 @@ onMounted(async () => {
     <div class="w-full flex justify-between items-center py-10">
       <h1 class="text-2xl font-bold">Appointment Management </h1>
 
-      <Dialog>
-        <DialogTrigger as-child>
-          <Button class="capitalize">
-            + New Appoinment
-          </Button>
-        </DialogTrigger>
-        <DialogContent class="sm:max-w-xl block">
-          <DialogHeader>
-            <DialogTitle>Patient Appoinment</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <AddnewAppoinment />
-          <DialogFooter>
-            <Button type="submit">
-              Add Patient </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
 
 
@@ -301,21 +276,7 @@ onMounted(async () => {
                   </TableCell>
                   <TableCell class="font-medium p-3">
                     {{ appoinment.doctor.doctor_details.name }}
-                    <div>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a doctor" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Doctors</SelectLabel>
-                            <SelectItem value="apple" v-for="doctor in doctors">
-                              {{ doctor.name }}
-                            </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
+
                   </TableCell>
 
                   <TableCell class="p-3">

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 import { type Patient } from '@/scripts/patient';
-import { getRequist } from './helper';
+import { getRequest } from './helper';
 
 const usePatientStore = defineStore('patients', () => {
 	let patients = ref<Patient[]>([]);
@@ -55,7 +55,7 @@ const usePatientStore = defineStore('patients', () => {
 	};
 
 	let retrievePatients = async function (perPage: number = 10) {
-		getRequist(`/api/filter-patient-list`, {
+		getRequest(`/api/filter-patient-list`, {
 			per_page: perPage,
 			search: searchKeyword.value,
 		}).then((data) => {
