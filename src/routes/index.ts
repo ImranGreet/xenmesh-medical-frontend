@@ -62,9 +62,14 @@ const routes: RouteRecordRaw[] = [
 		],
 	},
 	{
-		path: '/registration',
+		path: '/signup',
 		component: () => import('@/pages/auth/UserRegistration.vue'),
-		name: 'user-registration',
+		name: 'signup',
+	},
+	{
+		path: '/signin',
+		component: () => import('@/pages/auth/UserLogin.vue'),
+		name: 'signin',
 	},
 	{
 		path: '/patient-public',

@@ -108,7 +108,7 @@ onMounted(async () => {
                                 d="M12 2v20M2 12h20M5.5 5.5l13 13M18.5 5.5l-13 13" />
                         </svg>
                     </div>
-                    <span class="text-xl font-semibold tracking-tight">MediCare HMS</span>
+                    <span class="text-xl font-semibold tracking-tight">Xenmesh HMS</span>
                 </div>
                 <h1 class="text-2xl font-bold text-center mb-2">Staff Registration</h1>
                 <p class="text-blue-100 text-center text-sm">Create a new staff account for hospital management system
@@ -119,7 +119,7 @@ onMounted(async () => {
             <div class="p-6 sm:p-8">
                 <form @submit="handleSubmit" class="space-y-6">
                     <!-- Personal Information Section -->
-                    <div class="space-y-4">
+                    <div class="space-y-2">
                         <div class="flex items-center gap-2 pb-3 border-b border-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -140,31 +140,33 @@ onMounted(async () => {
                             <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
                         </div>
 
-                        <!-- Username field -->
-                        <div>
-                            <Label for="username" class="block text-sm font-medium text-gray-700 mb-1">
-                                Username
-                            </Label>
-                            <Input id="username" v-model="username" name="username"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                                :class="{ 'border-red-500': errors.username }" placeholder="jsmith" />
-                            <p v-if="errors.username" class="mt-1 text-sm text-red-600">{{ errors.username }}</p>
-                        </div>
+                        <div class="w-full flex flex-col sm:flex-row gap-4">
+                            <!-- Username field -->
+                            <div class="w-full">
+                                <Label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Username
+                                </Label>
+                                <Input id="username" v-model="username" name="username"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                    :class="{ 'border-red-500': errors.username }" placeholder="jsmith" />
+                                <p v-if="errors.username" class="mt-1 text-sm text-red-600">{{ errors.username }}</p>
+                            </div>
 
-                        <!-- Email field -->
-                        <div>
-                            <Label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-                                Email Address
-                            </Label>
-                            <Input id="email" v-model="email" name="email" type="email"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                                :class="{ 'border-red-500': errors.email }" placeholder="john.smith@hospital.org" />
-                            <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
+                            <!-- Email field -->
+                            <div class="w-full">
+                                <Label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Email Address
+                                </Label>
+                                <Input id="email" v-model="email" name="email" type="email"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                    :class="{ 'border-red-500': errors.email }" placeholder="john.smith@hospital.org" />
+                                <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Security Section -->
-                    <div class="space-y-4">
+                    <div class="space-y-2">
                         <div class="flex items-center gap-2 pb-3 border-b border-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -174,33 +176,38 @@ onMounted(async () => {
                             <h3 class="text-lg font-semibold text-gray-800">Security</h3>
                         </div>
 
-                        <!-- Password field -->
-                        <div>
-                            <Label for="password" class="block text-sm font-medium text-gray-700 mb-1">
-                                Password
-                            </Label>
-                            <Input id="password" v-model="password" name="password" type="password"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                                :class="{ 'border-red-500': errors.password }" placeholder="Enter your password" />
-                            <p v-if="errors.password" class="mt-1 text-sm text-red-600">{{ errors.password }}</p>
+                        <div class="w-full flex flex-col sm:flex-row gap-4">
+                            <!-- Password field -->
+                            <div class="w-full">
+                                <Label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Password
+                                </Label>
+                                <Input id="password" v-model="password" name="password" type="password"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                    :class="{ 'border-red-500': errors.password }" placeholder="Enter your password" />
+                                <p v-if="errors.password" class="mt-1 text-sm text-red-600">{{ errors.password }}</p>
+                            </div>
+
+                            <!-- Confirm Password field -->
+                            <div class="w-full">
+                                <Label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Confirm Password
+                                </Label>
+                                <Input id="confirmPassword" v-model="confirmPassword" name="confirmPassword"
+                                    type="password"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                    :class="{ 'border-red-500': errors.confirmPassword }"
+                                    placeholder="Confirm your password" />
+                                <p v-if="errors.confirmPassword" class="mt-1 text-sm text-red-600">{{
+                                    errors.confirmPassword
+                                    }}</p>
+                            </div>
                         </div>
 
-                        <!-- Confirm Password field -->
-                        <div>
-                            <Label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
-                                Confirm Password
-                            </Label>
-                            <Input id="confirmPassword" v-model="confirmPassword" name="confirmPassword" type="password"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                                :class="{ 'border-red-500': errors.confirmPassword }"
-                                placeholder="Confirm your password" />
-                            <p v-if="errors.confirmPassword" class="mt-1 text-sm text-red-600">{{ errors.confirmPassword
-                                }}</p>
-                        </div>
                     </div>
 
                     <!-- Role Section -->
-                    <div class="space-y-4">
+                    <div class="space-y-2">
                         <div class="flex items-center gap-2 pb-3 border-b border-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
